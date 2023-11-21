@@ -46,6 +46,7 @@
 				7555FF7D242A565900829871 /* iosApp */,
 				7555FF7C242A565900829871 /* Products */,
 				42799AB246E5F90AF97AA0EF /* Frameworks */,
+				76FDE30F37D852D3BC71699A /* xcuserdata */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +68,30 @@
 				058557D7273AAEEB004C7B11 /* Preview Content */,
 			);
 			path = iosApp;
+			sourceTree = "<group>";
+		};
+		76FDE28DB383FC067F0F79C2 /* michalkonkel.xcuserdatad */ = {
+			isa = PBXGroup;
+			children = (
+				76FDE98B8805926BB1E435C0 /* xcschemes */,
+			);
+			path = michalkonkel.xcuserdatad;
+			sourceTree = "<group>";
+		};
+		76FDE30F37D852D3BC71699A /* xcuserdata */ = {
+			isa = PBXGroup;
+			children = (
+				76FDE28DB383FC067F0F79C2 /* michalkonkel.xcuserdatad */,
+			);
+			name = xcuserdata;
+			path = iosApp.xcodeproj/xcuserdata;
+			sourceTree = "<group>";
+		};
+		76FDE98B8805926BB1E435C0 /* xcschemes */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = xcschemes;
 			sourceTree = "<group>";
 		};
 		AB1DB47929225F7C00F7AF9C /* Configuration */ = {

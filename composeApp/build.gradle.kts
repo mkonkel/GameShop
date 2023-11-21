@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -16,7 +15,7 @@ kotlin {
             }
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -35,7 +34,6 @@ kotlin {
             commonWebpackConfig {
                 outputFileName = "gameshopwasmapp.js"
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    // Uncomment and configure this if you want to open a browser different from the system default
                     open = mapOf(
                         "app" to mapOf(
                             "name" to "google chrome dev"
@@ -50,7 +48,6 @@ kotlin {
             }
         }
         binaries.executable()
-//        applyBinaryen()
     }
 
     sourceSets {
