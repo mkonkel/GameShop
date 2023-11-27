@@ -1,5 +1,7 @@
 package dev.michalkonkel.gameshop.features.games.presentation
 
+import dev.michalkonkel.gameshop.domain.DatabaseGamesRepository
+import dev.michalkonkel.gameshop.repository.GamesRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respondText
@@ -11,8 +13,11 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 
 fun Route.gamesRouting() {
+    val repo: GamesRepository = DatabaseGamesRepository()
+
     route("/games") {
         get {
+            val games = repo.getGames()
             call.respondText(text = "There are no games in our shop yet...", status = HttpStatusCode.OK)
         }
         get("/{id}") {
