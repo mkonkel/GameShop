@@ -1,6 +1,6 @@
 package dev.michalkonkel.gameshop.features.games.presentation
 
-import dev.michalkonkel.gameshop.domain.DatabaseGamesRepository
+import dev.michalkonkel.gameshop.features.games.domain.DatabaseGamesRepository
 import dev.michalkonkel.gameshop.repository.GamesRepository
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call

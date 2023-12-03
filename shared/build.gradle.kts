@@ -25,8 +25,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":domain"))
-            implementation(project(":repository"))
+            implementation(projects.domain)
+            implementation(projects.repository)
+        }
+
+        commonTest.dependencies {
         }
     }
 }

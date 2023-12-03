@@ -1,6 +1,5 @@
 package dev.michalkonkel.gameshop
 
-import SERVER_PORT
 import dev.michalkonkel.gameshop.plugins.configureRouting
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
