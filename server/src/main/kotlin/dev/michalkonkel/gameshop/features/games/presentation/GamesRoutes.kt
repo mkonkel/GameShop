@@ -11,9 +11,10 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.put
 import io.ktor.server.routing.route
+import org.koin.ktor.ext.inject
 
 fun Route.gamesRouting() {
-    val repo: GamesRepository = DatabaseGamesRepository()
+    val repo by inject<GamesRepository>()
 
     route("/games") {
         get {
