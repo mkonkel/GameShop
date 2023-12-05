@@ -1,5 +1,6 @@
 package dev.michalkonkel.gameshop
 
+import dev.michalkonkel.gameshop.plugins.configureDI
 import dev.michalkonkel.gameshop.plugins.configureRouting
 import io.ktor.server.application.Application
 import io.ktor.server.engine.embeddedServer
@@ -12,4 +13,5 @@ fun main() {
 
 fun Application.module() {
     configureRouting()
+    configureDI()
 }
