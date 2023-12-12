@@ -1,0 +1,32 @@
+### POST login and retrieve token
+POST http://0.0.0.0:8080/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "pass"
+}
+
+> {%
+    client.test("Assert token is retrieved", function() {
+      client.assert(response.body.token !== "")
+    })
+
+    client.global.set("auth_token", response.body.token);
+%}
+
+### GET List of the users
+GET http://0.0.0.0:8080/users
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+### POST create new user
+POST http://0.0.0.0:8080/users
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "Frodo",
+  "username": "mkonkel",
+  "password": "test"
+}
