@@ -1,16 +1,18 @@
 package dev.michalkonkel.gameshop.database
 
 import dev.michalkonkel.gameshop.database.tables.Games
+import dev.michalkonkel.gameshop.database.tables.RoleEntity
+import dev.michalkonkel.gameshop.database.tables.Roles
+import dev.michalkonkel.gameshop.database.tables.UserEntity
+import dev.michalkonkel.gameshop.database.tables.Users
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import dev.michalkonkel.gameshop.database.tables.Users
 
 class RealDatabaseFactory : DatabaseFactory {
     private companion object {
@@ -26,14 +28,19 @@ class RealDatabaseFactory : DatabaseFactory {
     private object SchemaDefinition {
         fun createSchema() {
             transaction {
+                SchemaUtils.create(Roles)
                 SchemaUtils.create(Users)
                 SchemaUtils.create(Games)
 
-                Users.insert {
-                    it[name] = "Admin"
-                    it[username] = "admin"
-                    it[password] = "pass"
-                    it[date_created] = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
+                val adminRole = RoleEntity.new { name = "admin" }
+                RoleEntity.new { name = "user" }
+
+                UserEntity.new {
+                    name = "Admin"
+                    username = "admin"
+                    password = "pass"
+                    date_created = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
+                    role = adminRole
                 }
             }
         }
