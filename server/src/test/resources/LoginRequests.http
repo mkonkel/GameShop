@@ -28,5 +28,22 @@ Authorization: Bearer {{auth_token}}
 {
   "name": "Frodo",
   "username": "mkonkel",
-  "password": "test"
+  "password": "test123"
 }
+
+### POST login and retrieve token
+POST http://0.0.0.0:8080/login
+Content-Type: application/json
+
+{
+  "username": "mkonkel",
+  "password": "test123"
+}
+
+> {%
+    client.test("Assert token is retrieved", function() {
+        client.assert(response.body.token !== "")
+    })
+
+    client.global.set("auth_token", response.body.token);
+%}

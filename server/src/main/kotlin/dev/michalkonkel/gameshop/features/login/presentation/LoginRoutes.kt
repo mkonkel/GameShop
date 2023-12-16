@@ -33,6 +33,7 @@ fun Route.loginRouting() {
                         .withAudience(AUDIENCE)
                         .withIssuer(ISSUER)
                         .withClaim("userId", it.id)
+                        .withClaim("role", listOf(it.role.name))
                         .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 60000))
                         .sign(Algorithm.HMAC256(SECRET))
 

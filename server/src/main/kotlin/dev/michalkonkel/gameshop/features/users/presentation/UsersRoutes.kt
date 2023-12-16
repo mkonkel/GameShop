@@ -1,7 +1,9 @@
 package dev.michalkonkel.gameshop.features.users.presentation
 
+import dev.michalkonkel.gameshop.domain.roles.Role
 import dev.michalkonkel.gameshop.domain.user.UserRequest
 import dev.michalkonkel.gameshop.features.users.domain.DatabaseUsersRepository
+import dev.michalkonkel.gameshop.plugins.roles.withRole
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.application.install
@@ -20,39 +22,41 @@ fun Route.usersRouting() {
     val repo by inject<DatabaseUsersRepository>()
 
     authenticate("jwt-auth") {
-        route("/users") {
-            install(RequestValidation) {
-                validate<UserRequest> { request ->
-                    when {
-                        request.password.isBlank() -> ValidationResult.Invalid("Password is required!")
-                        request.username.isBlank() -> ValidationResult.Invalid("Username is required!")
-                        request.password.length < 5 -> ValidationResult.Invalid("Password is too short!")
-                        request.name.length < 5 -> ValidationResult.Invalid("Name is too short!")
-                        request.username.length < 5 -> ValidationResult.Invalid("Username is too short!")
-                        repo.existByName(request.username) -> ValidationResult.Invalid("User already exists!")
-                        else -> ValidationResult.Valid
+        withRole(Role.ADMIN) {
+            route("/users") {
+                install(RequestValidation) {
+                    validate<UserRequest> { request ->
+                        when {
+                            request.password.isBlank() -> ValidationResult.Invalid("Password is required!")
+                            request.username.isBlank() -> ValidationResult.Invalid("Username is required!")
+                            request.password.length < 5 -> ValidationResult.Invalid("Password is too short!")
+                            request.name.length < 5 -> ValidationResult.Invalid("Name is too short!")
+                            request.username.length < 5 -> ValidationResult.Invalid("Username is too short!")
+                            repo.existByName(request.username) -> ValidationResult.Invalid("User already exists!")
+                            else -> ValidationResult.Valid
+                        }
                     }
                 }
-            }
-            post {
-                val request = call.receive<UserRequest>()
-                val user = repo.addUser(request)
+                post {
+                    val request = call.receive<UserRequest>()
+                    val user = repo.addUser(request)
 
-                requireNotNull(user)
+                    requireNotNull(user)
 
-                call.respond(
-                    status = HttpStatusCode.Created,
-                    message = user
-                )
-            }
+                    call.respond(
+                        status = HttpStatusCode.Created,
+                        message = user
+                    )
+                }
 
-            get {
-                val users = repo.getUsers()
+                get {
+                    val users = repo.getUsers()
 
-                call.respond(
-                    status = HttpStatusCode.OK,
-                    message = users
-                )
+                    call.respond(
+                        status = HttpStatusCode.OK,
+                        message = users
+                    )
+                }
             }
         }
     }
