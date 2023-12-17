@@ -9,7 +9,9 @@ object Roles : IntIdTable() {
     val name = varchar("name", 128)
 }
 
-class RoleEntity(id: EntityID<Int>) : IntEntity(id) {
+class RoleEntity(
+    id: EntityID<Int>,
+) : IntEntity(id) {
     companion object : IntEntityClass<RoleEntity>(Roles)
 
     var name by Roles.name

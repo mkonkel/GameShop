@@ -12,7 +12,7 @@ object DI {
 
     val presentationFactory: PresentationFactory by lazy {
         RealPresentationFactory(
-            gamesRepository = repositoryFactory.gamesRepository()
+            gamesRepository = repositoryFactory.gamesRepository(),
         )
     }
 }

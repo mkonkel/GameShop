@@ -15,5 +15,5 @@ data class User(
 data class UserRequest(
     val name: String,
     val username: String,
-    val password: String
+    val password: String,
 )

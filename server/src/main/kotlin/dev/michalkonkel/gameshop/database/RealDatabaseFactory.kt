@@ -16,12 +16,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class RealDatabaseFactory : DatabaseFactory {
     private companion object {
-        const val driverClassName = "org.h2.Driver"
-        const val jdbcURL = "jdbc:h2:file:./build/db"
+        const val DRIVER_CLASS_NAME = "org.h2.Driver"
+        const val JDBC_URL = "jdbc:h2:file:./build/db"
     }
 
     override fun create() {
-        Database.connect(jdbcURL, driverClassName)
+        Database.connect(JDBC_URL, DRIVER_CLASS_NAME)
         SchemaDefinition.createSchema()
     }
 
@@ -39,7 +39,13 @@ class RealDatabaseFactory : DatabaseFactory {
                     name = "Admin"
                     username = "admin"
                     password = "pass"
-                    date_created = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
+                    dateCreated =
+                        Clock
+                            .System
+                            .now()
+                            .toLocalDateTime(TimeZone.UTC)
+                            .date
+                            .toString()
                     role = adminRole
                 }
             }
@@ -47,5 +53,4 @@ class RealDatabaseFactory : DatabaseFactory {
     }
 }
 
-suspend fun <T> dbQuery(block: suspend () -> T): T =
-    newSuspendedTransaction(Dispatchers.IO) { block() }
+suspend fun <T> dbQuery(block: suspend () -> T): T = newSuspendedTransaction(Dispatchers.IO) { block() }

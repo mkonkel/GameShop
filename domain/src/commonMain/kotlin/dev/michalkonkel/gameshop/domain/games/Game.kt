@@ -14,5 +14,5 @@ data class Game(
 data class GameRequest(
     val name: String,
     val price: String,
-    val description: String
+    val description: String,
 )

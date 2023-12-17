@@ -28,11 +28,14 @@ fun Application.configureAuthentication() {
                     .require(Algorithm.HMAC256(SECRET))
                     .withAudience(AUDIENCE)
                     .withIssuer(ISSUER)
-                    .build()
+                    .build(),
             )
 
             validate { jwtCredential ->
-                jwtCredential.payload.claims["userId"]?.asString()
+                jwtCredential
+                    .payload
+                    .claims["userId"]
+                    ?.asString()
                     ?.let {
                         if (userRepository.existById(it)) {
                             JWTPrincipal(jwtCredential.payload)

@@ -55,12 +55,12 @@ private fun Games(games: List<Game>?) {
 
     Column(
         modifier = Modifier.fillMaxWidth().padding(20.dp),
-        horizontalAlignment = Alignment.Start
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            text = "Games:"
+            text = "Games:",
         )
 
         Spacer(Modifier.height(20.dp))

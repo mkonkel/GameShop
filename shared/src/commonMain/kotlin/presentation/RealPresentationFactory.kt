@@ -5,9 +5,7 @@ import presentation.app.AppPresentation
 import presentation.app.RealAppPresentation
 
 internal class RealPresentationFactory(
-    private val gamesRepository: GamesRepository
+    private val gamesRepository: GamesRepository,
 ) : PresentationFactory {
-    override fun createAppPresentation(): AppPresentation {
-        return RealAppPresentation(repository = gamesRepository)
-    }
+    override fun createAppPresentation(): AppPresentation = RealAppPresentation(repository = gamesRepository)
 }

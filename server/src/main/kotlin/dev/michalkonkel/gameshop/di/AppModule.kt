@@ -14,13 +14,14 @@ import dev.michalkonkel.gameshop.features.users.domain.RealDatabaseUsersReposito
 import dev.michalkonkel.gameshop.repository.GamesRepository
 import org.koin.dsl.module
 
-val appModule = module {
-    single<DatabaseFactory> { RealDatabaseFactory() }
+val appModule =
+    module {
+        single<DatabaseFactory> { RealDatabaseFactory() }
 
-    single<RolesDAOFacade> { RealRolesDAOFacade() }
-    single<UsersDAOFacade> { RealUsersDAOFacade(get()) }
-    single<GamesDAOFacade> { RealGamesDAOFacade() }
+        single<RolesDAOFacade> { RealRolesDAOFacade() }
+        single<UsersDAOFacade> { RealUsersDAOFacade(get()) }
+        single<GamesDAOFacade> { RealGamesDAOFacade() }
 
-    single<DatabaseUsersRepository> { RealDatabaseUsersRepository(get()) }
-    single<GamesRepository> { RealDatabaseGamesRepository(get()) }
-}
+        single<DatabaseUsersRepository> { RealDatabaseUsersRepository(get()) }
+        single<GamesRepository> { RealDatabaseGamesRepository(get()) }
+    }

@@ -45,7 +45,7 @@ fun Route.usersRouting() {
 
                     call.respond(
                         status = HttpStatusCode.Created,
-                        message = user
+                        message = user,
                     )
                 }
 
@@ -54,7 +54,7 @@ fun Route.usersRouting() {
 
                     call.respond(
                         status = HttpStatusCode.OK,
-                        message = users
+                        message = users,
                     )
                 }
             }

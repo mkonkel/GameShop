@@ -18,7 +18,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import kotlinx.datetime.Clock
 import org.koin.ktor.ext.inject
-import java.util.*
+import java.util.Date
 
 fun Route.loginRouting() {
     val repo by inject<DatabaseUsersRepository>()
@@ -27,22 +27,24 @@ fun Route.loginRouting() {
         post {
             val loginRequest = call.receive<LoginRequest>()
 
-            repo.getUserByUsernameAndPassword(loginRequest.username, loginRequest.password)
+            repo
+                .getUserByUsernameAndPassword(loginRequest.username, loginRequest.password)
                 ?.let {
-                    val token = JWT.create()
-                        .withAudience(AUDIENCE)
-                        .withIssuer(ISSUER)
-                        .withClaim("userId", it.id)
-                        .withClaim("role", listOf(it.role.name))
-                        .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 60000))
-                        .sign(Algorithm.HMAC256(SECRET))
+                    val token =
+                        JWT
+                            .create()
+                            .withAudience(AUDIENCE)
+                            .withIssuer(ISSUER)
+                            .withClaim("userId", it.id)
+                            .withClaim("role", listOf(it.role.name))
+                            .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 60000))
+                            .sign(Algorithm.HMAC256(SECRET))
 
                     call.respond(LoginResponse(token))
                 } ?: call.respondText(
                 status = HttpStatusCode.BadRequest,
-                text = "Invalid login or password"
+                text = "Invalid login or password",
             )
-
         }
     }
 }

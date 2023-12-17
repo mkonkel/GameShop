@@ -19,7 +19,7 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -33,18 +33,22 @@ kotlin {
         browser {
             commonWebpackConfig {
                 outputFileName = "gameshopwasmapp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    open = mapOf(
-                        "app" to mapOf(
-                            "name" to "google chrome dev"
-                        )
-                    )
+                devServer =
+                    (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                        open =
+                            mapOf(
+                                "app" to
+                                    mapOf(
+                                        "name" to "google chrome dev",
+                                    ),
+                            )
 
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(project.rootDir.path)
+                        static =
+                            (static ?: mutableListOf()).apply {
+                                // Serve sources to debug inside browser
+                                add(project.rootDir.path)
+                            }
                     }
-                }
             }
         }
         binaries.executable()

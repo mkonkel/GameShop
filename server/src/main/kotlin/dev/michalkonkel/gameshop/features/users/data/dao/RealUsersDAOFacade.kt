@@ -12,47 +12,63 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import java.util.*
+import java.util.UUID
 
-class RealUsersDAOFacade(private val rolesDAOFacade: RolesDAOFacade) : UsersDAOFacade {
-    override suspend fun createUser(userRequest: UserRequest) = dbQuery {
-        val userRoleId = requireNotNull(rolesDAOFacade.getIdByRole(Role.USER))
+class RealUsersDAOFacade(
+    private val rolesDAOFacade: RolesDAOFacade,
+) : UsersDAOFacade {
+    override suspend fun createUser(userRequest: UserRequest) =
+        dbQuery {
+            val userRoleId = requireNotNull(rolesDAOFacade.getIdByRole(Role.USER))
 
-        UserEntity.new {
-            name = userRequest.name
-            username = userRequest.username
-            password = userRequest.password
-            date_created = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
-            role = RoleEntity[userRoleId]
-        }.toUser()
-    }
+            UserEntity
+                .new {
+                    name = userRequest.name
+                    username = userRequest.username
+                    password = userRequest.password
+                    dateCreated =
+                        Clock
+                            .System
+                            .now()
+                            .toLocalDateTime(TimeZone.UTC)
+                            .date
+                            .toString()
+                    role = RoleEntity[userRoleId]
+                }.toUser()
+        }
 
-    override suspend fun getUsers(): List<User> = dbQuery {
-        UserEntity.all().map { it.toUser() }
-    }
+    override suspend fun getUsers(): List<User> =
+        dbQuery {
+            UserEntity.all().map { it.toUser() }
+        }
 
-    override suspend fun getUserByUsernameAndPassword(username: String, password: String): User? = dbQuery {
-        UserEntity.find { (Users.username eq username) and (Users.password eq password) }
-            .limit(1)
-            .firstOrNull()
-            ?.toUser()
-    }
+    override suspend fun getUserByUsernameAndPassword(
+        username: String,
+        password: String,
+    ): User? =
+        dbQuery {
+            UserEntity
+                .find { (Users.username eq username) and (Users.password eq password) }
+                .limit(1)
+                .firstOrNull()
+                ?.toUser()
+        }
 
-    override suspend fun existById(id: String): Boolean = dbQuery {
-        UserEntity.find { Users.id eq UUID.fromString(id) }.limit(1).count() > 0
-    }
+    override suspend fun existById(id: String): Boolean =
+        dbQuery {
+            UserEntity.find { Users.id eq UUID.fromString(id) }.limit(1).count() > 0
+        }
 
-    override suspend fun existByName(username: String) = dbQuery {
-        UserEntity.find { Users.username eq username }.limit(1).count() > 0
-    }
+    override suspend fun existByName(username: String) =
+        dbQuery {
+            UserEntity.find { Users.username eq username }.limit(1).count() > 0
+        }
 
-    private fun UserEntity.toUser(): User {
-        return User(
+    private fun UserEntity.toUser(): User =
+        User(
             id = id.value.toString(),
             name = name,
             username = username,
-            role = Role.entries.first { it.name.uppercase() == role.name.uppercase() }
+            role = Role.entries.first { it.name.uppercase() == role.name.uppercase() },
         )
-    }
 }
