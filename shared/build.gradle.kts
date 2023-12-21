@@ -28,9 +28,25 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.domain)
             implementation(projects.repository)
+
+            implementation(libs.coroutines.core)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(libs.serialization)
         }
 
-        commonTest.dependencies {
+        jvmTest.dependencies {
+            implementation(libs.kotest.core)
+            implementation(libs.kotest.property)
+            implementation(libs.junit)
+            implementation(libs.coroutines.core)
+            implementation(libs.coroutines.test)
         }
     }
 }

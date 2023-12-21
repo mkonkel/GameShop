@@ -27,8 +27,7 @@ fun Route.loginRouting() {
         post {
             val loginRequest = call.receive<LoginRequest>()
 
-            repo
-                .getUserByUsernameAndPassword(loginRequest.username, loginRequest.password)
+            repo.getUserByUsernameAndPassword(loginRequest.username, loginRequest.password)
                 ?.let {
                     val token =
                         JWT

@@ -1,7 +1,7 @@
-package repository
+package repository.remote
 
 import dev.michalkonkel.gameshop.repository.GamesRepository
 
-interface RepositoryFactory {
+interface RemoteRepositoryFactory {
     fun gamesRepository(): GamesRepository
 }

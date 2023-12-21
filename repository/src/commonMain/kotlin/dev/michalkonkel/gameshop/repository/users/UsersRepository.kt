@@ -7,4 +7,8 @@ interface UsersRepository {
     suspend fun addUser(userRequest: UserRequest): User?
 
     suspend fun getUsers(): List<User>
+
+    companion object {
+        const val USERS_ENDPOINT = "/users"
+    }
 }

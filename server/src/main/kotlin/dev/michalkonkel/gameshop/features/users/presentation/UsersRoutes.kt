@@ -4,6 +4,7 @@ import dev.michalkonkel.gameshop.domain.roles.Role
 import dev.michalkonkel.gameshop.domain.user.UserRequest
 import dev.michalkonkel.gameshop.features.users.domain.DatabaseUsersRepository
 import dev.michalkonkel.gameshop.plugins.roles.withRole
+import dev.michalkonkel.gameshop.repository.users.UsersRepository.Companion.USERS_ENDPOINT
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.application.install
@@ -23,7 +24,7 @@ fun Route.usersRouting() {
 
     authenticate("jwt-auth") {
         withRole(Role.ADMIN) {
-            route("/users") {
+            route(USERS_ENDPOINT) {
                 install(RequestValidation) {
                     validate<UserRequest> { request ->
                         when {
