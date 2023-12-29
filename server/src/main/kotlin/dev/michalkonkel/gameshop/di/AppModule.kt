@@ -11,7 +11,7 @@ import dev.michalkonkel.gameshop.features.users.data.dao.RealUsersDAOFacade
 import dev.michalkonkel.gameshop.features.users.data.dao.UsersDAOFacade
 import dev.michalkonkel.gameshop.features.users.domain.DatabaseUsersRepository
 import dev.michalkonkel.gameshop.features.users.domain.RealDatabaseUsersRepository
-import dev.michalkonkel.gameshop.repository.GamesRepository
+import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import org.koin.dsl.module
 
 val appModule =

@@ -1,4 +1,4 @@
-package dev.michalkonkel.gameshop.repository
+package dev.michalkonkel.gameshop.repository.games
 
 import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.GameRequest

@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.michalkonkel.gameshop.domain.games.Game
+import dev.michalkonkel.gameshop.domain.user.User
 import di.DI
 import kotlinx.coroutines.launch
 
@@ -31,7 +31,7 @@ fun App() {
 @Composable
 private fun Content() {
     val presentation = remember { DI.presentationFactory.createAppPresentation() }
-    var gamesState by remember { mutableStateOf<List<Game>?>(null) }
+    var usersState by remember { mutableStateOf<List<User>?>(null) }
     val scope = rememberCoroutineScope()
 
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -39,18 +39,18 @@ private fun Content() {
 
         Button(onClick = {
             scope.launch {
-                gamesState = presentation.getGames()
+                usersState = presentation.getUsers()
             }
         }) {
-            Text("Fetch games")
+            Text("Fetch Users")
         }
 
-        Games(gamesState)
+        Users(usersState)
     }
 }
 
 @Composable
-private fun Games(games: List<Game>?) {
+private fun Users(games: List<User>?) {
     if (games == null) return
 
     Column(
@@ -60,7 +60,7 @@ private fun Games(games: List<Game>?) {
         Text(
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
-            text = "Games:",
+            text = "Users:",
         )
 
         Spacer(Modifier.height(20.dp))

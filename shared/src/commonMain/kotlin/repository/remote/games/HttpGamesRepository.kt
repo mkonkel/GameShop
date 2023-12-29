@@ -2,9 +2,10 @@ package repository.remote.games
 
 import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.GameRequest
-import dev.michalkonkel.gameshop.repository.GamesRepository
+import dev.michalkonkel.gameshop.repository.games.GamesRepository
+import io.ktor.client.HttpClient
 
-internal class HttpGamesRepository : GamesRepository {
+internal class HttpGamesRepository(private val client: HttpClient) : GamesRepository {
     override suspend fun getGames(): List<Game> {
         TODO("Not yet implemented")
     }

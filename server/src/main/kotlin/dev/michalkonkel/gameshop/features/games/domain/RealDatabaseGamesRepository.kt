@@ -3,7 +3,7 @@ package dev.michalkonkel.gameshop.features.games.domain
 import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.GameRequest
 import dev.michalkonkel.gameshop.features.games.data.GamesDAOFacade
-import dev.michalkonkel.gameshop.repository.GamesRepository
+import dev.michalkonkel.gameshop.repository.games.GamesRepository
 
 internal class RealDatabaseGamesRepository(
     private val dao: GamesDAOFacade,

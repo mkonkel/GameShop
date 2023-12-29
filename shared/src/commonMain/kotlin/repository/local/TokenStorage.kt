@@ -1,6 +1,12 @@
 package repository.local
 
+import io.ktor.client.plugins.auth.providers.BearerTokens
+
 internal interface TokenStorage {
-    fun put(key: String, value: String)
-    fun get(key: String): String?
+    fun putTokens(
+        accessToken: String,
+        refreshToken: String,
+    )
+
+    fun getToken(): BearerTokens
 }

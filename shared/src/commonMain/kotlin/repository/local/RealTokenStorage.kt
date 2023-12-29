@@ -1,13 +1,18 @@
 package repository.local
 
-internal class RealTokenStorage : TokenStorage {
-    private val storage = mutableMapOf<String, String>()
+import io.ktor.client.plugins.auth.providers.BearerTokens
 
-    override fun put(key: String, value: String) {
-        storage[key] = value
+internal class RealTokenStorage : TokenStorage {
+    private val tokens = mutableSetOf<BearerTokens>()
+
+    override fun putTokens(
+        accessToken: String,
+        refreshToken: String,
+    ) {
+        tokens.add(BearerTokens(accessToken, refreshToken))
     }
 
-    override fun get(key: String): String? {
-        return storage[key]
+    override fun getToken(): BearerTokens {
+        return tokens.last()
     }
 }

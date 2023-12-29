@@ -104,7 +104,22 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes.apply {
+                addAll(
+                    listOf(
+                        "**/attach_hotspot_windows.dll",
+                        "META-INF/AL2.0",
+                        "META-INF/app_debug.kotlin_module",
+                        "META-INF/app_release.kotlin_module",
+                        "META-INF/LGPL2.1",
+                        "META-INF/licenses/**",
+                        "META-INF/LICENSE*",
+                        "META-INF/ui_release.kotlin_module",
+                        "/META-INF/{AL2.0,LGPL2.1}",
+                        "/META-INF/INDEX.LIST"
+                    )
+                )
+            }
         }
     }
     buildTypes {

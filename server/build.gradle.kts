@@ -17,7 +17,7 @@ dependencies {
     implementation(projects.domain)
     implementation(projects.repository)
 
-    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.server.serialization.kotlinx.json)
 
     implementation(libs.logback)
     implementation(libs.ktor.server.core)
@@ -28,6 +28,7 @@ dependencies {
     implementation(libs.ktor.server.request.validation)
     implementation(libs.ktor.server.status.pages)
     implementation(libs.ktor.server.resources)
+    implementation(libs.ktor.server.cors)
 
     implementation(libs.db.exposed.core)
     implementation(libs.db.exposed.dao)

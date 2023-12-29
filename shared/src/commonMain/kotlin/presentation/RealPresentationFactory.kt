@@ -1,11 +1,15 @@
 package presentation
 
-import dev.michalkonkel.gameshop.repository.GamesRepository
 import presentation.app.AppPresentation
 import presentation.app.RealAppPresentation
+import repository.remote.RemoteRepositoryFactory
 
 internal class RealPresentationFactory(
-    private val gamesRepository: GamesRepository,
+    private val remoteRepositoryFactory: RemoteRepositoryFactory,
 ) : PresentationFactory {
-    override fun createAppPresentation(): AppPresentation = RealAppPresentation(repository = gamesRepository)
+    override fun createAppPresentation(): AppPresentation =
+        RealAppPresentation(
+            loginRepository = remoteRepositoryFactory.loginRepository(),
+            usersRepository = remoteRepositoryFactory.usersRepository(),
+        )
 }

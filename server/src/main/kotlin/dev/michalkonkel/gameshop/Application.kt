@@ -1,6 +1,7 @@
 package dev.michalkonkel.gameshop
 
 import dev.michalkonkel.gameshop.plugins.configureAuthentication
+import dev.michalkonkel.gameshop.plugins.configureCORS
 import dev.michalkonkel.gameshop.plugins.configureDI
 import dev.michalkonkel.gameshop.plugins.configureDatabase
 import dev.michalkonkel.gameshop.plugins.configureRouting
@@ -26,4 +27,5 @@ fun Application.module() {
     configureDI()
     configureDatabase()
     configureStatusPages()
+    configureCORS()
 }
