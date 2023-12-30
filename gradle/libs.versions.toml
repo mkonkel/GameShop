@@ -1,27 +1,26 @@
 [versions]
 koin = "3.5.3"
-koin-compose = "1.1.1-RC1"
 ktor = "2.3.7"
 ktor-wasm = "3.0.0-wasm1"
 exposed = "0.45.0"
 h2 = "2.2.224"
 logback = "1.4.11"
 compose = "1.5.4"
-compose-plugin = "1.5.10-dev-wasm03"
+compose-plugin = "1.6.0-alpha01"
 compose-compiler = "1.5.4"
-agp = "8.1.3"
+agp = "8.1.4"
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
-androidx-activityCompose = "1.8.0"
+androidx-activityCompose = "1.8.2"
 androidx-core-ktx = "1.12.0"
 androidx-appcompat = "1.6.1"
-androidx-material = "1.10.0"
+androidx-material = "1.11.0"
 androidx-constraintlayout = "2.1.4"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
 coroutines = "1.8.0-RC2"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 junit = "4.13.2"
 date = "0.5.0"
 serialization = "1.6.2"
@@ -29,8 +28,6 @@ spotless = "6.23.3"
 kotest = "5.8.0"
 
 [libraries]
-kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
@@ -75,8 +72,6 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-material = { group = "com.google.android.material", name = "material", version.ref = "androidx-material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }

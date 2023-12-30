@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
+            baseName = "GameShop"
             isStatic = true
         }
     }
@@ -38,9 +38,9 @@ kotlin {
                         open =
                             mapOf(
                                 "app" to
-                                    mapOf(
-                                        "name" to "google chrome dev",
-                                    ),
+                                        mapOf(
+                                            "name" to "google chrome dev",
+                                        ),
                             )
 
                         static =
@@ -60,6 +60,7 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
         }
+
         commonMain.dependencies {
             implementation(projects.shared)
             implementation(projects.domain)
@@ -69,6 +70,7 @@ kotlin {
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
         }
+
         val wasmJsMain by getting {
             dependencies {
                 implementation(projects.shared)
