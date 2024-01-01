@@ -37,7 +37,7 @@ internal class HttpClientFactory(
                 level = LogLevel.ALL
             }
             install(DefaultRequest) {
-                url("http://localhost:8080")
+                url("http://localhost:8081")
                 contentType(ContentType.Application.Json)
                 accept(ContentType.Application.Json)
             }
