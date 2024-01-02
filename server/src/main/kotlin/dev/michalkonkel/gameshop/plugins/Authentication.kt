@@ -13,8 +13,8 @@ import io.ktor.server.response.respond
 import org.koin.ktor.ext.inject
 
 const val SECRET = "SECRETT"
-const val AUDIENCE = "http://0.0.0.0:8080"
-const val ISSUER = "http://0.0.0.0:8080/login"
+const val AUDIENCE = "http://0.0.0.0:3000"
+const val ISSUER = "http://0.0.0.0:3000/login"
 
 fun Application.configureAuthentication() {
     val userRepository by inject<DatabaseUsersRepository>()

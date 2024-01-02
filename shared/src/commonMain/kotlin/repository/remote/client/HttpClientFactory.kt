@@ -33,7 +33,7 @@ internal class HttpClientFactory(
                 )
             }
             install(DefaultRequest) {
-                url("http://localhost:8081")
+                url("http://localhost:3000")
                 contentType(ContentType.Application.Json)
                 accept(ContentType.Application.Json)
             }

@@ -12,8 +12,8 @@ fun Application.configureRouting() {
     install(Routing)
 
     routing {
+        loginRouting()
         gamesRouting()
         usersRouting()
-        loginRouting()
     }
 }
