@@ -1,5 +1,22 @@
+### POST login and retrieve token
+POST http://0.0.0.0:8081/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "pass"
+}
+
+> {%
+    client.test("Assert token is retrieved", function() {
+        client.assert(response.body.token !== "")
+    })
+
+    client.global.set("auth_token", response.body.token);
+%}
+
 ### POST - Add game
-POST http://0.0.0.0:8080/games
+POST http://0.0.0.0:8081/games
 Content-Type: application/json
 
 {
@@ -13,9 +30,11 @@ Content-Type: application/json
 %}
 
 ### GET - get Games List
-GET http://0.0.0.0:8080/games
+GET http://0.0.0.0:8081/games
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
 
 ### GET - get Game with UUID
-GET http://0.0.0.0:8080/games/{{game_id}}
+GET http://0.0.0.0:8081/games/{{game_id}}
 Content-Type: application/json

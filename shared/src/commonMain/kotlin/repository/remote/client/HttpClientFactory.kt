@@ -32,10 +32,6 @@ internal class HttpClientFactory(
                     },
                 )
             }
-            install(Logging) {
-                logger = Logger.SIMPLE
-                level = LogLevel.ALL
-            }
             install(DefaultRequest) {
                 url("http://localhost:8081")
                 contentType(ContentType.Application.Json)

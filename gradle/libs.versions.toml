@@ -49,8 +49,8 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor-wasm" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor-wasm" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor-wasm" }
-ktor-client-js= { module = "io.ktor:ktor-client-js", version.ref = "ktor-wasm" }
-ktor-client-logging= { module = "io.ktor:ktor-client-logging", version.ref = "ktor-wasm" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor-wasm" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor-wasm" }
 
 db-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 db-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }

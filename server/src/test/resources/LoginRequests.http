@@ -1,5 +1,5 @@
 ### POST login and retrieve token
-POST http://0.0.0.0:8080/login
+POST http://0.0.0.0:8081/login
 Content-Type: application/json
 
 {
@@ -16,12 +16,12 @@ Content-Type: application/json
 %}
 
 ### GET List of the users
-GET http://0.0.0.0:8080/users
+GET http://0.0.0.0:8081/users
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 ### POST create new user
-POST http://0.0.0.0:8080/users
+POST http://0.0.0.0:8081/users
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
@@ -32,7 +32,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ### POST login and retrieve token
-POST http://0.0.0.0:8080/login
+POST http://0.0.0.0:8081/login
 Content-Type: application/json
 
 {

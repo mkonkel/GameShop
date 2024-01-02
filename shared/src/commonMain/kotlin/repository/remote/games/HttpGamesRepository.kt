@@ -14,7 +14,7 @@ internal class HttpGamesRepository(private val client: HttpClient) : GamesReposi
         TODO("Not yet implemented")
     }
 
-    override suspend fun addGame(game: GameRequest): Game? {
+    override suspend fun addGame(game: GameRequest): Game {
         TODO("Not yet implemented")
     }
 }
