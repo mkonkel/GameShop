@@ -7,7 +7,7 @@ import dev.michalkonkel.gameshop.features.users.data.dao.UsersDAOFacade
 internal class RealDatabaseUsersRepository(
     private val dao: UsersDAOFacade,
 ) : DatabaseUsersRepository {
-    override suspend fun addUser(userRequest: UserRequest): User? = dao.createUser(userRequest)
+    override suspend fun addUser(request: UserRequest): User? = dao.createUser(request)
 
     override suspend fun getUsers(): List<User> = dao.getUsers()
 

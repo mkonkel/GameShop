@@ -8,5 +8,9 @@ interface GamesRepository {
 
     suspend fun getGame(id: String): Game?
 
-    suspend fun addGame(game: GameRequest): Game?
+    suspend fun addGame(game: GameRequest): Game
+
+    companion object {
+        const val GAMES_ENDPOINT = "/games"
+    }
 }

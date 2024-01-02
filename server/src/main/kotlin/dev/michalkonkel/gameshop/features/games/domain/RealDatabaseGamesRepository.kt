@@ -12,5 +12,5 @@ internal class RealDatabaseGamesRepository(
 
     override suspend fun getGame(id: String): Game? = dao.getGame(id)
 
-    override suspend fun addGame(game: GameRequest): Game? = dao.createGame(game)
+    override suspend fun addGame(game: GameRequest): Game = dao.createGame(game)
 }
