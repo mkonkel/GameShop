@@ -8,7 +8,7 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import repository.local.TokenStorage
 
-// TODO move the token storage and handle token repsonse in UseCase
+// TODO move the token storage and handle token response in UseCase
 internal class HttpLoginRepository(
     private val client: HttpClient,
     private val tokenStorage: TokenStorage,
