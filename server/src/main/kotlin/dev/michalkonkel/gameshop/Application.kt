@@ -14,7 +14,7 @@ import io.ktor.server.netty.Netty
 import io.ktor.server.resources.Resources
 
 fun main() {
-    embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0") {
+    embeddedServer(Netty, port = 8081, host = "0.0.0.0") {
         module()
     }.start(wait = true)
 }

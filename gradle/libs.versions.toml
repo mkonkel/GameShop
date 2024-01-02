@@ -1,7 +1,7 @@
 [versions]
 koin = "3.5.3"
 ktor = "2.3.7"
-ktor-wasm = "3.0.0-wasm1"
+ktor-wasm = "3.0.0-wasm2"
 exposed = "0.45.0"
 h2 = "2.2.224"
 logback = "1.4.11"

@@ -22,7 +22,7 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "GameShop"
+            baseName = "ComposeApp"
             isStatic = true
         }
     }
