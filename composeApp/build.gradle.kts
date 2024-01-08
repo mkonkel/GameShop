@@ -69,6 +69,9 @@ kotlin {
             implementation(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+
+            implementation(libs.decompose.core)
+            implementation(libs.decompose.extensions.compose)
         }
 
         val wasmJsMain by getting {

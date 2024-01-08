@@ -1,15 +1,26 @@
+@file:OptIn(ExperimentalDecomposeApi::class)
+
 package di
 
+import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
+import deeplink.DeepLink
+import di.module.ComponentModule
 import di.module.RepositoryModule
-import presentation.PresentationFactory
-import presentation.RealPresentationFactory
+import features.root.RootComponent
 
 object DI {
-    private val repositoryModule by lazy { RepositoryModule() }
+    private val repositoryModule = RepositoryModule()
+    private lateinit var componentModule: ComponentModule
 
-    val presentationFactory: PresentationFactory by lazy {
-        RealPresentationFactory(
-            remoteRepositoryFactory = repositoryModule.remoteRepositoryFactory,
-        )
+    fun rootComponent(
+        componentContext: ComponentContext,
+        deepLink: DeepLink = DeepLink.None,
+        webHistoryController: WebHistoryController? = null,
+    ): RootComponent {
+        return ComponentModule(componentContext, repositoryModule.remoteRepositoryFactory)
+            .also { componentModule = it }
+            .componentFactory.createRootComponent(deepLink, webHistoryController)
     }
 }

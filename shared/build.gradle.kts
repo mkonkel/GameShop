@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.Family
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -5,6 +8,20 @@ plugins {
 }
 
 kotlin {
+    targets
+        .filterIsInstance<KotlinNativeTarget>()
+        .filter { it.konanTarget.family == Family.IOS }
+        .forEach {
+            it.binaries {
+                framework {
+                    baseName = "Gameshop"
+                    export(libs.decompose.core)
+                    export(libs.essenty.lifecycle)
+                    export(libs.essenty.stateKeeper)
+                }
+            }
+        }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -38,6 +55,11 @@ kotlin {
             implementation(libs.ktor.client.serialization.kotlinx.json)
 
             implementation(libs.serialization)
+
+            implementation(libs.decompose.core)
+            api(libs.essenty.lifecycle)
+            api(libs.essenty.stateKeeper)
+            api(libs.essenty.backHandler)
         }
 
         jvmTest.dependencies {
