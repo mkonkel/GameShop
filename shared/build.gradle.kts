@@ -57,7 +57,7 @@ kotlin {
             implementation(libs.serialization)
 
             implementation(libs.decompose.core)
-            api(libs.essenty.lifecycle)
+            implementation(libs.essenty.lifecycle)
             api(libs.essenty.stateKeeper)
             api(libs.essenty.backHandler)
         }

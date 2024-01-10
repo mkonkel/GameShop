@@ -19,8 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.michalkonkel.gameshop.domain.roles.Role
 import dev.michalkonkel.gameshop.domain.user.User
-import di.DI
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @Composable
@@ -30,23 +32,29 @@ internal fun LoginScreen(component: LoginComponent, modifier: Modifier = Modifie
 
 @Composable
 private fun Content(component: LoginComponent, modifier: Modifier) {
-    val presentation = remember { DI.presentationFactory.createAppPresentation() }
+//    val presentation = remember { DI.presentationFactory.createAppPresentation() }
     var usersState by remember { mutableStateOf<List<User>?>(null) }
-    val scope = rememberCoroutineScope()
+//    val scope = rememberCoroutineScope()
 
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text("Compose: ${Greeting().greet()}")
         Text(component.model.title)
 
         Button(onClick = {
-            scope.launch {
-                usersState = presentation.getUsers()
-            }
+            usersState = listOf(
+                User("1", "John", "Doe", Role.USER),
+                User("2", "Jane", "Doe", Role.USER),
+                User("3", "John", "Smith", Role.USER),
+                User("4", "Jane", "Smith", Role.USER),
+            )
+
+            component.onLoginClick()
         }) {
             Text("Fetch Users")
         }
 
         Users(usersState)
+        component.model.test.value?.let { Text(it) }
     }
 }
 

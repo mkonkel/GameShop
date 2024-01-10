@@ -9,6 +9,7 @@ import deeplink.DeepLink
 import di.module.ComponentModule
 import di.module.RepositoryModule
 import features.root.RootComponent
+import kotlin.coroutines.CoroutineContext
 
 object DI {
     private val repositoryModule = RepositoryModule()
@@ -16,10 +17,15 @@ object DI {
 
     fun rootComponent(
         componentContext: ComponentContext,
+        mainContext: CoroutineContext,
         deepLink: DeepLink = DeepLink.None,
         webHistoryController: WebHistoryController? = null,
     ): RootComponent {
-        return ComponentModule(componentContext, repositoryModule.remoteRepositoryFactory)
+        return ComponentModule(
+            componentContext = componentContext,
+            remoteRepositoryFactory = repositoryModule.remoteRepositoryFactory,
+            mainContext = mainContext
+        )
             .also { componentModule = it }
             .componentFactory.createRootComponent(deepLink, webHistoryController)
     }

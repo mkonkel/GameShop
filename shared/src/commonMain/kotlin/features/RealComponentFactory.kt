@@ -13,10 +13,12 @@ import features.root.RootComponent
 import features.users.RealUsersComponent
 import features.users.UsersComponent
 import repository.remote.RemoteRepositoryFactory
+import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalDecomposeApi::class)
 internal class RealComponentFactory(
     private val componentContext: ComponentContext,
+    private val mainContext: CoroutineContext,
     private val repositoryFactory: RemoteRepositoryFactory
 ) : ComponentFactory {
     override fun createRootComponent(
@@ -36,7 +38,10 @@ internal class RealComponentFactory(
     }
 
     override fun createLoginComponent(): LoginComponent {
-        return RealLoginComponent(componentContext)
+        return RealLoginComponent(
+            componentContext = componentContext,
+            loginRepository = repositoryFactory.loginRepository()
+        ).also { it.attach(mainContext) }
     }
 
     override fun createGamesComponent(): GamesComponent {
