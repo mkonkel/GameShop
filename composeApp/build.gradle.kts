@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.serialization)
 }
 
 kotlin {
@@ -69,6 +70,16 @@ kotlin {
             implementation(compose.material)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
+
+            implementation(libs.coroutines.core)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization.kotlinx.json)
+
+            implementation(libs.serialization)
         }
 
         val wasmJsMain by getting {
@@ -78,6 +89,8 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material)
                 implementation(compose.ui)
+
+                implementation(libs.ktor.client.js)
             }
         }
     }

@@ -19,7 +19,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.michalkonkel.gameshop.domain.user.User
 import di.DI
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.ContentType
+import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.util.appendIfNameAbsent
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 @Composable
 fun App() {
@@ -28,45 +49,61 @@ fun App() {
     }
 }
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 private fun Content() {
-    val presentation = remember { DI.presentationFactory.createAppPresentation() }
-    var usersState by remember { mutableStateOf<List<User>?>(null) }
-    val scope = rememberCoroutineScope()
-
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("Compose: ${Greeting().greet()}")
-
-        Button(onClick = {
-            scope.launch {
-                usersState = presentation.getUsers()
+    GlobalScope.launch {
+        val client = HttpClient {
+            HttpClient {
+                install(ContentNegotiation) {
+                    json(
+                        Json {
+                            prettyPrint = true
+                            isLenient = true
+                            ignoreUnknownKeys = true
+                            useAlternativeNames = false
+                        }
+                    )
+                }
+                defaultRequest {
+                    url {
+                        protocol = URLProtocol.HTTP
+                        host = "localhost"
+                        port = 3000
+                    }
+                    headers.appendIfNameAbsent("Content-Type", "application/json")
+                }
+                install(Logging) {
+                    logger = Logger.DEFAULT
+                    level = LogLevel.ALL
+                }
+                install(Auth) {
+                    bearer {
+                        loadTokens {
+                            BearerTokens("123", "")
+                        }
+                        refreshTokens {
+                            TODO("Not implemented yet!")
+                        }
+                        sendWithoutRequest { request ->
+                            when (request.url.pathSegments.last()) {
+                                "login" -> false
+                                else -> true
+                            }
+                        }
+                    }
+                }
             }
-        }) {
-            Text("Fetch Users")
         }
 
-        Users(usersState)
-    }
-}
-
-@Composable
-private fun Users(games: List<User>?) {
-    if (games == null) return
-
-    Column(
-        modifier = Modifier.fillMaxWidth().padding(20.dp),
-        horizontalAlignment = Alignment.Start,
-    ) {
-        Text(
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Bold,
-            text = "Users:",
-        )
-
-        Spacer(Modifier.height(20.dp))
-
-        games.forEach { game ->
-            Text(game.name)
+        val r = client.post("http://localhost:3000/login") {
+            contentType(ContentType.Application.Json)
+            setBody("""{
+                "username": "user",
+                "password": "pass"
+            }""".trimIndent())
         }
+
+        println(r.bodyAsText())
     }
 }
