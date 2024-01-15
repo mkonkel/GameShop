@@ -1,23 +1,20 @@
-package features
+package features.root.factory
 
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
-import features.games.GamesComponent
-import features.login.LoginComponent
 import features.root.RootComponent
-import features.users.UsersComponent
+import features.root.login.LoginComponent
+import features.root.login.RegisterComponent
 
 @OptIn(ExperimentalDecomposeApi::class)
-interface ComponentFactory {
+interface RootComponentFactory {
     fun createRootComponent(
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
     ): RootComponent
 
-    fun createUsersComponent(): UsersComponent
+    fun createRegisterComponent(): RegisterComponent
 
     fun createLoginComponent(): LoginComponent
-
-    fun createGamesComponent(): GamesComponent
 }

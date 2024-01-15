@@ -1,4 +1,4 @@
-package features.root
+package features.logged
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -12,27 +12,39 @@ import deeplink.DeepLink
 import features.BaseComponent
 import features.Destination
 import features.logged.factory.LoggedComponentFactory
-import features.root.factory.RootComponentFactory
+import features.utils.ModelState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalDecomposeApi::class)
-internal class RealRootComponent(
+internal class RealLoggedComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-    rootNavigationRouter: RootNavigationRouter,
-    private val deepLink: DeepLink = DeepLink.None,
-    private val webHistoryController: WebHistoryController? = null,
-    private val componentFactory: RootComponentFactory,
-    private val loggedComponentFactory: () -> LoggedComponentFactory,
-) : BaseComponent(componentContext, coroutineContext), RootComponent {
+    deepLink: DeepLink = DeepLink.None,
+    webHistoryController: WebHistoryController? = null,
+    rootNavigationRouter: LoggedNavigationRouter,
+    private val componentFactory: LoggedComponentFactory,
+) : BaseComponent(componentContext, coroutineContext), LoggedComponent {
     private val navigation = StackNavigation<Config>()
+
+    private val _modelState: MutableStateFlow<ModelState<HomeModel>> =
+        MutableStateFlow(ModelState.Loading())
+
+    override val modelState: StateFlow<ModelState<HomeModel>>
+        get() = _modelState.asStateFlow()
+
+    init {
+        _modelState.value = ModelState.Success(HomeModel("Hello in GameShop!"))
+    }
 
     private val stack =
         childStack(
-            key = "RootComponent",
+            key = "LoggedComponent",
             source = navigation,
             serializer = Config.serializer(),
             initialStack = {
@@ -44,7 +56,7 @@ internal class RealRootComponent(
             childFactory = ::childFactory,
         )
 
-    override val childStack: Value<ChildStack<*, RootComponent.Child>> = stack
+    override val childStack: Value<ChildStack<*, LoggedComponent.Child>> = stack
 
     init {
         webHistoryController?.attach(
@@ -63,10 +75,9 @@ internal class RealRootComponent(
     private fun handleNavigation(destination: Destination) {
         println("Root navigation: $destination")
         when (destination) {
-            RootNavigationRouter.RootDestination.LOGIN -> navigation.push(Config.Login)
-            RootNavigationRouter.RootDestination.REGISTER -> navigation.push(Config.Register)
-            RootNavigationRouter.RootDestination.HOME -> navigation.push(Config.Home)
-            else -> navigation.push(Config.Login)
+            LoggedNavigationRouter.RootDestination.GAMES -> navigation.push(Config.Games)
+            LoggedNavigationRouter.RootDestination.USERS -> navigation.push(Config.Users)
+            else -> navigation.push(Config.Games)
         }
     }
 
@@ -74,22 +85,13 @@ internal class RealRootComponent(
         config: Config,
         componentContext: ComponentContext,
     ) = when (config) {
-        Config.Login -> RootComponent.Child.LoginChild(componentFactory.createLoginComponent())
-        Config.Register -> RootComponent.Child.RegisterChild(componentFactory.createRegisterComponent())
-        Config.Home -> {
-            RootComponent.Child.HomeChild(
-                loggedComponentFactory().createLoggedComponent(
-                    webHistoryController = webHistoryController,
-                    deepLink = deepLink,
-                ),
-            )
-        }
+        Config.Games -> LoggedComponent.Child.GamesChild(componentFactory.createGamesComponent())
+        Config.Users -> LoggedComponent.Child.UsersChild(componentFactory.createUsersComponent())
     }
 
     private companion object {
-        private const val WEB_PATH_LOGIN = "login"
-        private const val WEB_PATH_REGISTER = "register"
-        private const val WEB_PATH_HOME = "home"
+        private const val WEB_PATH_GAMES = "games"
+        private const val WEB_PATH_USERS = "users"
 
         private fun getInitialStack(
             webHistoryPaths: List<String>?,
@@ -102,35 +104,30 @@ internal class RealRootComponent(
 
         private fun getInitialStack(deepLink: DeepLink): List<Config> =
             when (deepLink) {
-                is DeepLink.None -> listOf(Config.Login)
+                is DeepLink.None -> listOf(Config.Games)
                 is DeepLink.Web -> listOf(getConfigForPath(deepLink.path))
             }
 
         private fun getPathForConfig(config: Config): String =
             when (config) {
-                Config.Login -> "/$WEB_PATH_LOGIN"
-                Config.Register -> "/$WEB_PATH_REGISTER"
-                Config.Home -> "/$WEB_PATH_HOME"
+                Config.Games -> "/$WEB_PATH_GAMES"
+                Config.Users -> "/$WEB_PATH_USERS"
             }
 
         private fun getConfigForPath(path: String): Config =
             when (path.removePrefix("/")) {
-                WEB_PATH_LOGIN -> Config.Login
-                WEB_PATH_REGISTER -> Config.Register
-                WEB_PATH_HOME -> Config.Home
-                else -> Config.Login
+                WEB_PATH_GAMES -> Config.Games
+                WEB_PATH_USERS -> Config.Users
+                else -> Config.Games
             }
     }
 
     @Serializable
     private sealed interface Config {
         @Serializable
-        data object Login : Config
+        data object Games : Config
 
         @Serializable
-        data object Register : Config
-
-        @Serializable
-        data object Home : Config
+        data object Users : Config
     }
 }

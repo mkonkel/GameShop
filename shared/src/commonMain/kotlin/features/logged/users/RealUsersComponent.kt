@@ -1,4 +1,4 @@
-package features.users
+package features.logged.users
 
 import com.arkivanov.decompose.ComponentContext
 

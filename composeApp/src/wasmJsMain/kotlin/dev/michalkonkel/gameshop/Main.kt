@@ -15,11 +15,12 @@ import kotlinx.browser.window
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalDecomposeApi::class)
 fun main() {
-    val root = DI.rootComponent(
-        componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry()),
-        deepLink = DeepLink.Web(path = window.location.pathname),
-        webHistoryController = DefaultWebHistoryController(),
-    )
+    val root =
+        DI.rootComponent(
+            componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry()),
+            deepLink = DeepLink.Web(path = window.location.pathname),
+            webHistoryController = DefaultWebHistoryController(),
+        )
 
     CanvasBasedWindow(title = "GameShop", canvasElementId = "gameShopCanvas") {
         RootScreen(component = root, modifier = Modifier.fillMaxSize())

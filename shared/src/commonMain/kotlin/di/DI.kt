@@ -11,6 +11,7 @@ import di.module.RepositoryModule
 import features.root.RootComponent
 import kotlin.coroutines.CoroutineContext
 
+@OptIn(ExperimentalDecomposeApi::class)
 object DI {
     private val repositoryModule = RepositoryModule()
     private lateinit var componentModule: ComponentModule
@@ -24,9 +25,12 @@ object DI {
         return ComponentModule(
             componentContext = componentContext,
             remoteRepositoryFactory = repositoryModule.remoteRepositoryFactory,
-            mainContext = mainContext
+            mainContext = mainContext,
         )
             .also { componentModule = it }
-            .componentFactory.createRootComponent(deepLink, webHistoryController)
+            .rootComponentFactory.createRootComponent(
+                deepLink = deepLink,
+                webHistoryController = webHistoryController,
+            )
     }
 }

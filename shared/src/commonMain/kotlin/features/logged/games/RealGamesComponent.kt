@@ -1,4 +1,4 @@
-package features.games
+package features.logged.games
 
 import com.arkivanov.decompose.ComponentContext
 
