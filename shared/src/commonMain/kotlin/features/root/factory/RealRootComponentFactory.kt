@@ -18,10 +18,9 @@ import kotlin.coroutines.CoroutineContext
 internal class RealRootComponentFactory(
     private val mainContext: CoroutineContext,
     private val repositoryFactory: RemoteRepositoryFactory,
+    private val rootNavigationRouter: RootNavigationRouter,
     private val loggedComponentFactory: () -> LoggedComponentFactory,
 ) : RootComponentFactory {
-    private val navigationRouter: RootNavigationRouter = RootNavigationRouter()
-
     override fun createRootComponent(
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
@@ -32,7 +31,7 @@ internal class RealRootComponentFactory(
             componentContext = componentContext,
             deepLink = deepLink,
             webHistoryController = webHistoryController,
-            rootNavigationRouter = navigationRouter,
+            rootNavigationRouter = rootNavigationRouter,
             componentFactory = this,
             loggedComponentFactory = loggedComponentFactory,
         )
@@ -46,8 +45,8 @@ internal class RealRootComponentFactory(
         return RealLoginComponent(
             coroutineContext = mainContext,
             componentContext = componentContext,
-            rootNavigationRouter = navigationRouter,
             loginRepository = repositoryFactory.loginRepository(),
+            rootNavigationRouter = rootNavigationRouter,
         )
     }
 }

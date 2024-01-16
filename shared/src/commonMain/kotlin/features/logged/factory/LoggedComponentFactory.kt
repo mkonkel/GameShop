@@ -4,9 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
-import features.logged.LoggedComponent
-import features.logged.games.GamesComponent
-import features.logged.users.UsersComponent
+import features.logged.HomeComponent
+import features.logged.games.detail.GameDetailsComponent
+import features.logged.games.list.GamesListComponent
+import features.logged.users.UsersListComponent
 
 @OptIn(ExperimentalDecomposeApi::class)
 interface LoggedComponentFactory {
@@ -14,9 +15,11 @@ interface LoggedComponentFactory {
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
         componentContext: ComponentContext,
-    ): LoggedComponent
+    ): HomeComponent
 
-    fun createGamesComponent(componentContext: ComponentContext): GamesComponent
+    fun createGamesListComponent(componentContext: ComponentContext): GamesListComponent
 
-    fun createUsersComponent(componentContext: ComponentContext): UsersComponent
+    fun createGameDetailsComponent(componentContext: ComponentContext): GameDetailsComponent
+
+    fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent
 }

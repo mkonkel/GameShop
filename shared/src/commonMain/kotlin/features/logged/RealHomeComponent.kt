@@ -6,32 +6,26 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.Value
 import deeplink.DeepLink
 import features.BaseComponent
-import features.Destination
 import features.logged.factory.LoggedComponentFactory
 import features.utils.ModelState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalDecomposeApi::class)
-internal class RealLoggedComponent(
+internal class RealHomeComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
     deepLink: DeepLink = DeepLink.None,
     webHistoryController: WebHistoryController? = null,
-    private val loggedNavigationRouter: LoggedNavigationRouter,
     private val componentFactory: LoggedComponentFactory,
-) : BaseComponent(componentContext, coroutineContext), LoggedComponent {
+) : BaseComponent(componentContext, coroutineContext), HomeComponent {
     private val navigation = StackNavigation<Config>()
 
     private val _modelState: MutableStateFlow<ModelState<HomeModel>> =
@@ -59,7 +53,7 @@ internal class RealLoggedComponent(
             childFactory = ::childFactory,
         )
 
-    override val childStack: Value<ChildStack<*, LoggedComponent.Child>> = stack
+    override val childStack: Value<ChildStack<*, HomeComponent.Child>> = stack
 
     init {
         webHistoryController?.attach(
@@ -69,30 +63,14 @@ internal class RealLoggedComponent(
             getPath = Companion::getPathForConfig,
             getConfiguration = Companion::getConfigForPath,
         )
-
-        loggedNavigationRouter.observeDestinations()
-            .onEach { handleNavigation(it) }
-            .launchIn(scope)
-    }
-
-    private fun handleNavigation(destination: Destination) {
-        when (destination) {
-            LoggedNavigationRouter.LoggedDestination.GAMES -> navigation.bringToFront(Config.Games)
-            LoggedNavigationRouter.LoggedDestination.USERS -> navigation.bringToFront(Config.Users)
-            else -> navigation.pushNew(Config.Games)
-        }
     }
 
     override fun onUsersClick() {
-        scope.launch {
-            loggedNavigationRouter.push(LoggedNavigationRouter.LoggedDestination.USERS)
-        }
+        navigation.bringToFront(Config.Users)
     }
 
     override fun onGamesClick() {
-        scope.launch {
-            loggedNavigationRouter.push(LoggedNavigationRouter.LoggedDestination.GAMES)
-        }
+        navigation.bringToFront(Config.Games)
     }
 
     private fun childFactory(
@@ -100,15 +78,15 @@ internal class RealLoggedComponent(
         componentContext: ComponentContext,
     ) = when (config) {
         Config.Games ->
-            LoggedComponent.Child.GamesChild(
-                componentFactory.createGamesComponent(
+            HomeComponent.Child.GamesChild(
+                componentFactory.createGamesListComponent(
                     componentContext,
                 ),
             )
 
         Config.Users ->
-            LoggedComponent.Child.UsersChild(
-                componentFactory.createUsersComponent(
+            HomeComponent.Child.UsersChild(
+                componentFactory.createUsersListComponent(
                     componentContext,
                 ),
             )

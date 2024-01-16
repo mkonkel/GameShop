@@ -21,5 +21,6 @@ class RootNavigationRouter : NavigationRouter {
         LOGIN,
         REGISTER,
         HOME,
+        GAME_DETAILS,
     }
 }

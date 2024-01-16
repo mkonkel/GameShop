@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
@@ -67,7 +68,8 @@ internal class RealRootComponent(
             RootNavigationRouter.RootDestination.LOGIN -> navigation.pushNew(Config.Login)
             RootNavigationRouter.RootDestination.REGISTER -> navigation.pushNew(Config.Register)
             RootNavigationRouter.RootDestination.HOME -> navigation.pushNew(Config.Home)
-            else -> navigation.pushNew(Config.Login)
+            RootNavigationRouter.RootDestination.GAME_DETAILS -> navigation.pushNew(Config.GameDetails)
+            else -> navigation.bringToFront(Config.Login)
         }
     }
 
@@ -96,12 +98,17 @@ internal class RealRootComponent(
                 ),
             )
         }
+
+        Config.GameDetails -> {
+            RootComponent.Child.GameDetails(loggedComponentFactory().createGameDetailsComponent(componentContext))
+        }
     }
 
     private companion object {
         private const val WEB_PATH_LOGIN = "login"
         private const val WEB_PATH_REGISTER = "register"
         private const val WEB_PATH_HOME = "home"
+        private const val WEB_PATH_GAMES_DETAIL = "games/detail"
 
         private fun getInitialStack(
             webHistoryPaths: List<String>?,
@@ -123,6 +130,7 @@ internal class RealRootComponent(
                 Config.Login -> "/$WEB_PATH_LOGIN"
                 Config.Register -> "/$WEB_PATH_REGISTER"
                 Config.Home -> "/$WEB_PATH_HOME"
+                Config.GameDetails -> "/$WEB_PATH_GAMES_DETAIL"
             }
 
         private fun getConfigForPath(path: String): Config =
@@ -130,6 +138,7 @@ internal class RealRootComponent(
                 WEB_PATH_LOGIN -> Config.Login
                 WEB_PATH_REGISTER -> Config.Register
                 WEB_PATH_HOME -> Config.Home
+                WEB_PATH_GAMES_DETAIL -> Config.GameDetails
                 else -> Config.Login
             }
     }
@@ -144,5 +153,8 @@ internal class RealRootComponent(
 
         @Serializable
         data object Home : Config
+
+        @Serializable
+        data object GameDetails : Config
     }
 }

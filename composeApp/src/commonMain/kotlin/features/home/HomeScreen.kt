@@ -14,13 +14,13 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import features.games.GamesScreen
-import features.logged.LoggedComponent
+import features.logged.HomeComponent
 import features.users.UsersScreen
 import utils.observeModel
 
 @Composable
 internal fun HomeScreen(
-    component: LoggedComponent,
+    component: HomeComponent,
     modifier: Modifier = Modifier,
 ) {
     component.observeModel { model, _ ->
@@ -58,7 +58,7 @@ internal fun HomeScreen(
 
 @Composable
 private fun Children(
-    component: LoggedComponent,
+    component: HomeComponent,
     modifier: Modifier = Modifier,
 ) {
     Children(
@@ -67,8 +67,8 @@ private fun Children(
         animation = stackAnimation(fade()),
     ) {
         when (val child = it.instance) {
-            is LoggedComponent.Child.GamesChild -> GamesScreen(child.component, modifier)
-            is LoggedComponent.Child.UsersChild -> UsersScreen(child.component, modifier)
+            is HomeComponent.Child.GamesChild -> GamesScreen(child.component, modifier)
+            is HomeComponent.Child.UsersChild -> UsersScreen(child.component, modifier)
         }
     }
 }

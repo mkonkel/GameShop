@@ -1,4 +1,4 @@
-package features.logged.users
+package features.logged.games.detail
 
 import com.arkivanov.decompose.ComponentContext
 import features.BaseComponent
@@ -10,16 +10,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-internal class RealUsersComponent(
+internal class RealGameDetailsComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-) : BaseComponent(componentContext, coroutineContext), UsersListComponent {
-    private val _modelState: MutableStateFlow<ModelState<UsersModel>> =
+) : BaseComponent(componentContext, coroutineContext), GameDetailsComponent {
+    private val _modelState: MutableStateFlow<ModelState<GameDetailsModel>> =
         MutableStateFlow(ModelState.Loading())
 
-    private val model: UsersModel = UsersModel()
+    private val model: GameDetailsModel = GameDetailsModel()
 
-    override val modelState: StateFlow<ModelState<UsersModel>>
+    override val modelState: StateFlow<ModelState<GameDetailsModel>>
         get() = this._modelState.asStateFlow()
 
     init {

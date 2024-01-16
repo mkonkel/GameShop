@@ -1,8 +1,8 @@
-package features.logged.games
+package features.logged.games.list
 
 import features.utils.Model
 
-data class GamesModel(
+data class GamesListModel(
     val games: List<String> =
         listOf(
             "Doom",

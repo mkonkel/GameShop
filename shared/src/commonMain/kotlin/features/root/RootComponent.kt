@@ -2,7 +2,8 @@ package features.root
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import features.logged.LoggedComponent
+import features.logged.HomeComponent
+import features.logged.games.detail.GameDetailsComponent
 import features.root.login.LoginComponent
 import features.root.login.RegisterComponent
 
@@ -14,6 +15,8 @@ interface RootComponent {
 
         class RegisterChild(val component: RegisterComponent) : Child()
 
-        class HomeChild(val component: LoggedComponent) : Child()
+        class HomeChild(val component: HomeComponent) : Child()
+
+        class GameDetails(val component: GameDetailsComponent) : Child()
     }
 }

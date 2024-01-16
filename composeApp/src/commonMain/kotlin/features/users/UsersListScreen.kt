@@ -1,4 +1,4 @@
-package features.games
+package features.users
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -6,13 +6,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import features.logged.games.GamesComponent
-import features.logged.games.GamesModel
+import features.logged.users.UsersListComponent
+import features.logged.users.UsersModel
 import utils.observeModel
 
 @Composable
-internal fun GamesScreen(
-    component: GamesComponent,
+internal fun UsersScreen(
+    component: UsersListComponent,
     modifier: Modifier = Modifier,
 ) {
     component.observeModel { model, _ ->
@@ -22,8 +22,8 @@ internal fun GamesScreen(
 
 @Composable
 private fun Content(
-    component: GamesComponent,
-    model: GamesModel,
+    component: UsersListComponent,
+    model: UsersModel,
     modifier: Modifier,
 ) {
     Column(
@@ -31,8 +31,10 @@ private fun Content(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        model.games.forEach {
-            Text(it)
+        Column {
+            model.users.forEach {
+                Text(it)
+            }
         }
     }
 }
