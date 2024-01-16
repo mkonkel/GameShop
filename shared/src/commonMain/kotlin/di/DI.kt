@@ -23,7 +23,6 @@ object DI {
         webHistoryController: WebHistoryController? = null,
     ): RootComponent {
         return ComponentModule(
-            componentContext = componentContext,
             remoteRepositoryFactory = repositoryModule.remoteRepositoryFactory,
             mainContext = mainContext,
         )
@@ -31,6 +30,7 @@ object DI {
             .rootComponentFactory.createRootComponent(
                 deepLink = deepLink,
                 webHistoryController = webHistoryController,
+                componentContext = componentContext,
             )
     }
 }

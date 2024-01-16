@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
@@ -25,7 +25,7 @@ fun RootScreen(
     modifier: Modifier = Modifier,
 ) {
     MaterialTheme {
-        Surface(modifier = modifier, color = MaterialTheme.colors.background) {
+        Surface(modifier = modifier, color = MaterialTheme.colorScheme.background) {
             Column(
                 modifier =
                     Modifier

@@ -12,6 +12,7 @@ import deeplink.DeepLink
 import di.DI
 import features.RootScreen
 import kotlinx.browser.window
+import kotlinx.coroutines.MainScope
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalDecomposeApi::class)
 fun main() {
@@ -20,6 +21,7 @@ fun main() {
             componentContext = DefaultComponentContext(lifecycle = LifecycleRegistry()),
             deepLink = DeepLink.Web(path = window.location.pathname),
             webHistoryController = DefaultWebHistoryController(),
+            mainContext = MainScope().coroutineContext,
         )
 
     CanvasBasedWindow(title = "GameShop", canvasElementId = "gameShopCanvas") {

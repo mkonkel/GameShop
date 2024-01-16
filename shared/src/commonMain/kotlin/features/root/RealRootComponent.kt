@@ -5,7 +5,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.Value
 import deeplink.DeepLink
@@ -35,6 +35,7 @@ internal class RealRootComponent(
             key = "RootComponent",
             source = navigation,
             serializer = Config.serializer(),
+            handleBackButton = true,
             initialStack = {
                 getInitialStack(
                     webHistoryPaths = webHistoryController?.historyPaths,
@@ -63,10 +64,10 @@ internal class RealRootComponent(
     private fun handleNavigation(destination: Destination) {
         println("Root navigation: $destination")
         when (destination) {
-            RootNavigationRouter.RootDestination.LOGIN -> navigation.push(Config.Login)
-            RootNavigationRouter.RootDestination.REGISTER -> navigation.push(Config.Register)
-            RootNavigationRouter.RootDestination.HOME -> navigation.push(Config.Home)
-            else -> navigation.push(Config.Login)
+            RootNavigationRouter.RootDestination.LOGIN -> navigation.pushNew(Config.Login)
+            RootNavigationRouter.RootDestination.REGISTER -> navigation.pushNew(Config.Register)
+            RootNavigationRouter.RootDestination.HOME -> navigation.pushNew(Config.Home)
+            else -> navigation.pushNew(Config.Login)
         }
     }
 
@@ -74,13 +75,24 @@ internal class RealRootComponent(
         config: Config,
         componentContext: ComponentContext,
     ) = when (config) {
-        Config.Login -> RootComponent.Child.LoginChild(componentFactory.createLoginComponent())
-        Config.Register -> RootComponent.Child.RegisterChild(componentFactory.createRegisterComponent())
+        Config.Login -> {
+            RootComponent.Child.LoginChild(componentFactory.createLoginComponent(componentContext))
+        }
+
+        Config.Register -> {
+            RootComponent.Child.RegisterChild(
+                componentFactory.createRegisterComponent(
+                    componentContext,
+                ),
+            )
+        }
+
         Config.Home -> {
             RootComponent.Child.HomeChild(
                 loggedComponentFactory().createLoggedComponent(
                     webHistoryController = webHistoryController,
                     deepLink = deepLink,
+                    componentContext = componentContext,
                 ),
             )
         }

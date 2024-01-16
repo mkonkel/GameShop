@@ -1,5 +1,5 @@
 package features.logged.games
 
-interface GamesComponent {
-    val model: GamesModel
-}
+import features.Component
+
+interface GamesComponent : Component<GamesModel>

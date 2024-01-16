@@ -1,5 +1,6 @@
 package features.root.factory
 
+import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
@@ -12,9 +13,10 @@ interface RootComponentFactory {
     fun createRootComponent(
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
+        componentContext: ComponentContext,
     ): RootComponent
 
-    fun createRegisterComponent(): RegisterComponent
+    fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent
 
-    fun createLoginComponent(): LoginComponent
+    fun createLoginComponent(componentContext: ComponentContext): LoginComponent
 }

@@ -4,8 +4,9 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.Value
 import deeplink.DeepLink
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
@@ -27,7 +29,7 @@ internal class RealLoggedComponent(
     coroutineContext: CoroutineContext,
     deepLink: DeepLink = DeepLink.None,
     webHistoryController: WebHistoryController? = null,
-    rootNavigationRouter: LoggedNavigationRouter,
+    private val loggedNavigationRouter: LoggedNavigationRouter,
     private val componentFactory: LoggedComponentFactory,
 ) : BaseComponent(componentContext, coroutineContext), LoggedComponent {
     private val navigation = StackNavigation<Config>()
@@ -44,9 +46,10 @@ internal class RealLoggedComponent(
 
     private val stack =
         childStack(
-            key = "LoggedComponent",
             source = navigation,
             serializer = Config.serializer(),
+            handleBackButton = true,
+            key = "LoggedComponent",
             initialStack = {
                 getInitialStack(
                     webHistoryPaths = webHistoryController?.historyPaths,
@@ -67,17 +70,28 @@ internal class RealLoggedComponent(
             getConfiguration = Companion::getConfigForPath,
         )
 
-        rootNavigationRouter.observeDestinations()
+        loggedNavigationRouter.observeDestinations()
             .onEach { handleNavigation(it) }
             .launchIn(scope)
     }
 
     private fun handleNavigation(destination: Destination) {
-        println("Root navigation: $destination")
         when (destination) {
-            LoggedNavigationRouter.RootDestination.GAMES -> navigation.push(Config.Games)
-            LoggedNavigationRouter.RootDestination.USERS -> navigation.push(Config.Users)
-            else -> navigation.push(Config.Games)
+            LoggedNavigationRouter.LoggedDestination.GAMES -> navigation.bringToFront(Config.Games)
+            LoggedNavigationRouter.LoggedDestination.USERS -> navigation.bringToFront(Config.Users)
+            else -> navigation.pushNew(Config.Games)
+        }
+    }
+
+    override fun onUsersClick() {
+        scope.launch {
+            loggedNavigationRouter.push(LoggedNavigationRouter.LoggedDestination.USERS)
+        }
+    }
+
+    override fun onGamesClick() {
+        scope.launch {
+            loggedNavigationRouter.push(LoggedNavigationRouter.LoggedDestination.GAMES)
         }
     }
 
@@ -85,8 +99,19 @@ internal class RealLoggedComponent(
         config: Config,
         componentContext: ComponentContext,
     ) = when (config) {
-        Config.Games -> LoggedComponent.Child.GamesChild(componentFactory.createGamesComponent())
-        Config.Users -> LoggedComponent.Child.UsersChild(componentFactory.createUsersComponent())
+        Config.Games ->
+            LoggedComponent.Child.GamesChild(
+                componentFactory.createGamesComponent(
+                    componentContext,
+                ),
+            )
+
+        Config.Users ->
+            LoggedComponent.Child.UsersChild(
+                componentFactory.createUsersComponent(
+                    componentContext,
+                ),
+            )
     }
 
     private companion object {

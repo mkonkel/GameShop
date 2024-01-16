@@ -7,11 +7,15 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import di.DI
 import features.RootScreen
+import kotlinx.coroutines.MainScope
 
 @OptIn(ExperimentalDecomposeApi::class)
 fun MainViewController() = ComposeUIViewController {
     val root = remember {
-        DI.rootComponent(componentContext = DefaultComponentContext(LifecycleRegistry()))
+        DI.rootComponent(
+            componentContext = DefaultComponentContext(LifecycleRegistry()),
+            mainContext = MainScope().coroutineContext
+        )
     }
 
     RootScreen(component = root, modifier = Modifier.fillMaxSize())

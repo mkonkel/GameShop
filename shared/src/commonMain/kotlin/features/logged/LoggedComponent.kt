@@ -9,6 +9,10 @@ import features.logged.users.UsersComponent
 interface LoggedComponent : Component<HomeModel> {
     val childStack: Value<ChildStack<*, Child>>
 
+    fun onUsersClick()
+
+    fun onGamesClick()
+
     sealed class Child {
         class GamesChild(val component: GamesComponent) : Child()
 

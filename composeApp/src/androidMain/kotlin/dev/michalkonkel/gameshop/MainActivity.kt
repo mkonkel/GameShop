@@ -16,7 +16,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val root = retainedComponent { DI.rootComponent(it, MainScope().coroutineContext) }
+        val root =
+            retainedComponent {
+                DI.rootComponent(
+                    componentContext = it,
+                    mainContext = MainScope().coroutineContext,
+                )
+            }
 
         setContent {
             RootScreen(component = root, modifier = Modifier.fillMaxSize())

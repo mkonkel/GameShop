@@ -12,7 +12,7 @@ import repository.remote.login.LoginRepository
 import widget.input.AuthInput
 import kotlin.coroutines.CoroutineContext
 
-internal class RealLoggedComponent(
+internal class RealLoginComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
     private val rootNavigationRouter: RootNavigationRouter,

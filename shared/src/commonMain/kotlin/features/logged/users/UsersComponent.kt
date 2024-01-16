@@ -1,5 +1,5 @@
 package features.logged.users
 
-interface UsersComponent {
-    val model: UsersModel
-}
+import features.Component
+
+interface UsersComponent : Component<UsersModel>

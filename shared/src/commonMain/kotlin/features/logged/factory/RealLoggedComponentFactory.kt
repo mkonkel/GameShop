@@ -9,13 +9,13 @@ import features.logged.LoggedNavigationRouter
 import features.logged.RealLoggedComponent
 import features.logged.games.GamesComponent
 import features.logged.games.RealGamesComponent
+import features.logged.users.RealUsersComponent
 import features.logged.users.UsersComponent
 import repository.remote.RemoteRepositoryFactory
 import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalDecomposeApi::class)
 internal class RealLoggedComponentFactory(
-    private val componentContext: ComponentContext,
     private val mainContext: CoroutineContext,
     private val repositoryFactory: RemoteRepositoryFactory,
 ) : LoggedComponentFactory {
@@ -24,22 +24,23 @@ internal class RealLoggedComponentFactory(
     override fun createLoggedComponent(
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
+        componentContext: ComponentContext,
     ): LoggedComponent {
         return RealLoggedComponent(
             coroutineContext = mainContext,
             componentContext = componentContext,
             deepLink = deepLink,
             webHistoryController = webHistoryController,
-            rootNavigationRouter = navigationRouter,
+            loggedNavigationRouter = navigationRouter,
             componentFactory = this,
         )
     }
 
-    override fun createGamesComponent(): GamesComponent {
-        return RealGamesComponent(componentContext)
+    override fun createGamesComponent(componentContext: ComponentContext): GamesComponent {
+        return RealGamesComponent(componentContext, mainContext)
     }
 
-    override fun createUsersComponent(): UsersComponent {
-        TODO("Not yet implemented")
+    override fun createUsersComponent(componentContext: ComponentContext): UsersComponent {
+        return RealUsersComponent(componentContext, mainContext)
     }
 }

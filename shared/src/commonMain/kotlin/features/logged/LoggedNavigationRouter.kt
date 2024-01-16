@@ -17,7 +17,7 @@ class LoggedNavigationRouter : NavigationRouter {
         destinationsFlow.emit(destination)
     }
 
-    enum class RootDestination : Destination {
+    enum class LoggedDestination : Destination {
         GAMES,
         USERS,
     }
