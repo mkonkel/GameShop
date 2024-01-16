@@ -1,9 +1,12 @@
 package utils
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import features.Component
 import features.utils.Model
@@ -26,5 +29,11 @@ fun <T : Model> Component<T>.observeModel(
 private fun DefaultProgressIndicator(modifier: Modifier) {
     // https://github.com/android/sunflower/issues/942 CircularProgress crashes the App
 //    CircularProgressIndicator(modifier = modifier.width(50.dp))
-    Text("Loading...", modifier.fillMaxSize())
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text("Loading...")
+    }
 }
