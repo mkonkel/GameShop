@@ -7,8 +7,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import features.logged.games.list.GamesListComponent
-import features.logged.games.list.GamesListModel
+import features.games.list.GamesListComponent
+import features.games.list.GamesListModel
 import utils.observeModel
 
 @Composable

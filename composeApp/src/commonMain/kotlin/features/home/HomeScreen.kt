@@ -14,7 +14,6 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import features.games.GamesScreen
-import features.logged.HomeComponent
 import features.users.UsersScreen
 import utils.observeModel
 

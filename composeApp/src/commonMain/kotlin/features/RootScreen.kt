@@ -18,7 +18,6 @@ import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import features.games.GameDetailsScreen
 import features.home.HomeScreen
 import features.login.LoginScreen
-import features.root.RootComponent
 
 @Composable
 fun RootScreen(
