@@ -5,13 +5,12 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.update
 import features.BaseComponent
 import features.factory.ComponentFactory
 import features.utils.ModelState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.Serializable
 import kotlin.coroutines.CoroutineContext
 
@@ -21,15 +20,13 @@ internal class RealHomeComponent(
     private val componentFactory: ComponentFactory,
 ) : BaseComponent(componentContext, coroutineContext), HomeComponent {
     private val navigation = StackNavigation<Config>()
+    private val modelState: MutableValue<ModelState<HomeModel>> =
+        MutableValue(ModelState.Loading())
 
-    private val _modelState: MutableStateFlow<ModelState<HomeModel>> =
-        MutableStateFlow(ModelState.Loading())
-
-    override val modelState: StateFlow<ModelState<HomeModel>>
-        get() = _modelState.asStateFlow()
+    override val modelValue: Value<ModelState<HomeModel>> = modelState
 
     init {
-        _modelState.value = ModelState.Success(HomeModel("Hello in GameShop!"))
+        modelState.update { ModelState.Success(HomeModel("Hello in GameShop!")) }
     }
 
     private val stack =

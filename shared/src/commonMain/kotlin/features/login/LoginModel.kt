@@ -1,9 +1,9 @@
 package features.login
 
 import features.utils.Model
-import widget.input.AuthInput
+import widget.input.InputText
 
 data class LoginModel(
-    val login: AuthInput,
-    val pass: AuthInput,
+    val login: InputText,
+    val pass: InputText,
 ) : Model

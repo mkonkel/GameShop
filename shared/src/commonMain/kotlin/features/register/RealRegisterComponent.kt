@@ -1,14 +1,16 @@
-package features.root.login
+package features.register
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.update
 import features.BaseComponent
 import features.NavigationRouter
+import features.root.login.RegisterComponent
+import features.root.login.RegisterModel
 import features.utils.ModelState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import repository.remote.login.LoginRepository
-import widget.input.AuthInput
+import widget.input.InputText
 import kotlin.coroutines.CoroutineContext
 
 internal class RealRegisterComponent(
@@ -17,20 +19,21 @@ internal class RealRegisterComponent(
     private val navigationRouter: NavigationRouter,
     private val loginRepository: LoginRepository,
 ) : BaseComponent(componentContext, coroutineContext), RegisterComponent {
-    private val _modelState: MutableStateFlow<ModelState<RegisterModel>> =
-        MutableStateFlow(ModelState.Loading())
+    private val modelState: MutableValue<ModelState<RegisterModel>> =
+        MutableValue(ModelState.Loading())
+
+    override val modelValue: Value<ModelState<RegisterModel>> = modelState
 
     private val model: RegisterModel =
         RegisterModel(
-            login = AuthInput(AuthInput.Type.LOGIN),
-            pass = AuthInput(AuthInput.Type.PASSWORD),
+            name = InputText(type = InputText.Type.NORMAL, label = "Name"),
+            email = InputText(type = InputText.Type.NORMAL, label = "Email"),
+            pass = InputText(type = InputText.Type.SECURE, label = "Password"),
+            repeatPass = InputText(type = InputText.Type.SECURE, label = "Repeat Password"),
         )
 
-    override val modelState: StateFlow<ModelState<RegisterModel>>
-        get() = this._modelState.asStateFlow()
-
     init {
-        _modelState.value = ModelState.Success(model)
+        modelState.update { ModelState.Success(this.model) }
     }
 
     override fun onRegisterClick() {

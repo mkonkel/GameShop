@@ -1,4 +1,4 @@
-package features.login
+package features.register
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,21 +10,23 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import features.root.login.RegisterComponent
+import features.root.login.RegisterModel
 import ui.widget.input.Widget
 import utils.observeModel
 
 @Composable
-internal fun LoginScreen(
-    component: LoginComponent,
+internal fun RegisterScreen(
+    component: RegisterComponent,
     modifier: Modifier = Modifier,
 ) {
     component.observeModel { loginModel, _ ->
@@ -34,8 +36,8 @@ internal fun LoginScreen(
 
 @Composable
 private fun Content(
-    component: LoginComponent,
-    model: LoginModel,
+    component: RegisterComponent,
+    model: RegisterModel,
     modifier: Modifier,
 ) {
     Column(
@@ -51,19 +53,20 @@ private fun Content(
             Column(
                 modifier = Modifier.padding(8.dp),
             ) {
-                model.login.Widget(Modifier.fillMaxWidth(), Icons.Default.AccountBox)
+                model.name.Widget(Modifier.fillMaxWidth(), Icons.Default.AccountBox)
+                Spacer(Modifier.height(16.dp))
+                model.email.Widget(Modifier.fillMaxWidth(), Icons.Default.Email)
                 Spacer(Modifier.height(16.dp))
                 model.pass.Widget(Modifier.fillMaxWidth(), Icons.Default.Lock)
+                Spacer(Modifier.height(16.dp))
+                model.repeatPass.Widget(Modifier.fillMaxWidth(), Icons.Default.Lock)
                 Spacer(Modifier.height(16.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Button(onClick = { component.onLoginClick() }) {
-                        Text("Login")
-                    }
-                    OutlinedButton(onClick = { component.onRegisterClick() }) {
+                    Button(onClick = { component.onRegisterClick() }) {
                         Text("Register")
                     }
                 }

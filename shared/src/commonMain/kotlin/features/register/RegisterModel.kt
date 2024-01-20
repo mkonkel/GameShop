@@ -1,9 +1,11 @@
 package features.root.login
 
 import features.utils.Model
-import widget.input.AuthInput
+import widget.input.InputText
 
 data class RegisterModel(
-    val login: AuthInput,
-    val pass: AuthInput,
+    val name: InputText,
+    val email: InputText,
+    val pass: InputText,
+    val repeatPass: InputText,
 ) : Model

@@ -15,6 +15,7 @@ import features.home.HomeComponent
 import features.home.RealHomeComponent
 import features.login.LoginComponent
 import features.login.RealLoginComponent
+import features.register.RealRegisterComponent
 import features.root.login.RegisterComponent
 import features.users.RealUsersComponent
 import features.users.UsersListComponent
@@ -44,7 +45,12 @@ internal class RealComponentFactory(
     }
 
     override fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent {
-        TODO("Not yet implemented")
+        return RealRegisterComponent(
+            componentContext = componentContext,
+            coroutineContext = mainContext,
+            navigationRouter = navigationRouter,
+            loginRepository = remoteRepository.loginRepository(),
+        )
     }
 
     override fun createLoginComponent(componentContext: ComponentContext): LoginComponent {

@@ -5,19 +5,21 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import features.games.GameDetailsScreen
 import features.home.HomeScreen
 import features.login.LoginScreen
+import features.register.RegisterScreen
 
 @Composable
 fun RootScreen(
@@ -52,10 +54,21 @@ private fun Children(
             is RootComponent.Child.LoginChild ->
                 LoginScreen(
                     child.component,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxSize(),
                 )
 
-            is RootComponent.Child.RegisterChild -> Text("REGISTER")
+            is RootComponent.Child.RegisterChild ->
+                RegisterScreen(
+                    child.component,
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxSize(),
+                )
+
             is RootComponent.Child.HomeChild ->
                 HomeScreen(
                     child.component,

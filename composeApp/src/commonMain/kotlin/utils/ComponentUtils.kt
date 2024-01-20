@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import features.Component
 import features.utils.Model
 import features.utils.ModelState
@@ -18,7 +18,7 @@ fun <T : Model> Component<T>.observeModel(
     error: @Composable (String) -> Unit = { Text("Error: $it") },
     content: @Composable (T, Modifier) -> Unit,
 ) {
-    when (val modelState = this.modelState.collectAsState().value) {
+    when (val modelState = this.modelValue.subscribeAsState().value) {
         is ModelState.Loading -> loading(Modifier)
         is ModelState.Success -> content(modelState.model, Modifier)
         is ModelState.Error -> error(modelState.message)
