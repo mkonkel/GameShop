@@ -54,31 +54,25 @@ private fun Children(
             is RootComponent.Child.LoginChild ->
                 LoginScreen(
                     child.component,
-                    modifier =
-                        Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxSize(),
+                    modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
                 )
 
             is RootComponent.Child.RegisterChild ->
                 RegisterScreen(
                     child.component,
-                    modifier =
-                        Modifier
-                            .padding(horizontal = 16.dp)
-                            .fillMaxSize(),
+                    modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
                 )
 
             is RootComponent.Child.HomeChild ->
                 HomeScreen(
                     child.component,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
                 )
 
             is RootComponent.Child.GameDetails ->
                 GameDetailsScreen(
                     child.component,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
                 )
         }
     }

@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
 import features.RootComponent
 import features.games.detail.GameDetailsComponent
+import features.games.detail.OrdersComponent
 import features.games.list.GamesListComponent
 import features.home.HomeComponent
 import features.login.LoginComponent
@@ -27,6 +28,8 @@ interface ComponentFactory {
     fun createHomeComponent(componentContext: ComponentContext): HomeComponent
 
     fun createGamesListComponent(componentContext: ComponentContext): GamesListComponent
+
+    fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent
 
     fun createGameDetailsComponent(componentContext: ComponentContext): GameDetailsComponent
 

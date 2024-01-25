@@ -58,6 +58,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.client.okhttp)
         }
 
         commonMain.dependencies {
@@ -71,10 +72,20 @@ kotlin {
 
             implementation(libs.decompose.core)
             implementation(libs.decompose.extensions.compose)
+
+            implementation(libs.ktor.client.core)
+            implementation(libs.coil.coil)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
 
         val wasmJsMain by getting {
             dependencies {
+                implementation(libs.ktor.client.js)
             }
         }
     }
@@ -133,6 +144,10 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+dependencies {
+    implementation(libs.androidx.animation.android)
+    implementation(libs.androidx.animation.core.android)
 }
 
 compose.experimental {

@@ -29,7 +29,7 @@ internal fun RegisterScreen(
     component: RegisterComponent,
     modifier: Modifier = Modifier,
 ) {
-    component.observeModel { loginModel, _ ->
+    component.observeModel { loginModel ->
         Content(component, loginModel, modifier)
     }
 }

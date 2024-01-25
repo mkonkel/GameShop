@@ -5,12 +5,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import widget.input.InputText
 
 @Composable
@@ -18,13 +18,12 @@ fun InputText.Widget(
     modifier: Modifier,
     imageVector: ImageVector? = null,
 ) {
-    val currentText by text.subscribeAsState()
+    var currentText by remember { text }
 
     OutlinedTextField(
         value = currentText,
         onValueChange = {
-            println("onValueChange: $it")
-            updateText(it)
+            currentText = it
         },
         modifier = Modifier.then(modifier),
         leadingIcon = {

@@ -8,6 +8,7 @@ import features.NavigationRouter
 import features.RealRootComponent
 import features.RootComponent
 import features.games.detail.GameDetailsComponent
+import features.games.detail.OrdersComponent
 import features.games.detail.RealGameDetailsComponent
 import features.games.list.GamesListComponent
 import features.games.list.RealGamesListComponent
@@ -15,6 +16,7 @@ import features.home.HomeComponent
 import features.home.RealHomeComponent
 import features.login.LoginComponent
 import features.login.RealLoginComponent
+import features.orders.RealOrdersComponent
 import features.register.RealRegisterComponent
 import features.root.login.RegisterComponent
 import features.users.RealUsersComponent
@@ -76,6 +78,10 @@ internal class RealComponentFactory(
 
     override fun createGameDetailsComponent(componentContext: ComponentContext): GameDetailsComponent {
         return RealGameDetailsComponent(componentContext, mainContext)
+    }
+
+    override fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent {
+        return RealOrdersComponent(componentContext, mainContext)
     }
 
     override fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent {

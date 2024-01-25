@@ -5,6 +5,7 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
@@ -12,6 +13,8 @@ import features.BaseComponent
 import features.factory.ComponentFactory
 import features.utils.ModelState
 import kotlinx.serialization.Serializable
+import widget.bottombar.BottomBarModel
+import widget.topbar.TopBarModel
 import kotlin.coroutines.CoroutineContext
 
 internal class RealHomeComponent(
@@ -24,9 +27,37 @@ internal class RealHomeComponent(
         MutableValue(ModelState.Loading())
 
     override val modelValue: Value<ModelState<HomeModel>> = modelState
+    private val model: HomeModel =
+        HomeModel(
+            topBar =
+                TopBarModel(
+                    title = "Home",
+                    onBackClick = {
+                        navigation.pop()
+                    },
+                ),
+            bottomBar =
+                BottomBarModel(
+                    items =
+                        listOf(
+                            BottomBarModel.Item(
+                                label = "Games",
+                                onClick = ::onGamesClick,
+                            ),
+                            BottomBarModel.Item(
+                                label = "Orders",
+                                onClick = ::onOrdersClick,
+                            ),
+                            BottomBarModel.Item(
+                                label = "Users",
+                                onClick = ::onUsersClick,
+                            ),
+                        ),
+                ),
+        )
 
     init {
-        modelState.update { ModelState.Success(HomeModel("Hello in GameShop!")) }
+        modelState.update { ModelState.Success(model) }
     }
 
     private val stack =
@@ -41,12 +72,19 @@ internal class RealHomeComponent(
 
     override val childStack: Value<ChildStack<*, HomeComponent.Child>> = stack
 
-    override fun onUsersClick() {
+    private fun onUsersClick(item: BottomBarModel.Item) {
+        model.bottomBar.selectItem(item)
         navigation.bringToFront(Config.Users)
     }
 
-    override fun onGamesClick() {
+    private fun onGamesClick(item: BottomBarModel.Item) {
+        model.bottomBar.selectItem(item)
         navigation.bringToFront(Config.Games)
+    }
+
+    private fun onOrdersClick(item: BottomBarModel.Item) {
+        model.bottomBar.selectItem(item)
+        navigation.bringToFront(Config.Orders)
     }
 
     private fun childFactory(
@@ -54,24 +92,22 @@ internal class RealHomeComponent(
         componentContext: ComponentContext,
     ) = when (config) {
         Config.Games ->
-            HomeComponent.Child.GamesChild(
-                componentFactory.createGamesListComponent(
-                    componentContext,
-                ),
-            )
+            HomeComponent.Child.GamesChild(componentFactory.createGamesListComponent(componentContext))
+
+        Config.Orders ->
+            HomeComponent.Child.OrdersChild(componentFactory.createOrdersComponent(componentContext))
 
         Config.Users ->
-            HomeComponent.Child.UsersChild(
-                componentFactory.createUsersListComponent(
-                    componentContext,
-                ),
-            )
+            HomeComponent.Child.UsersChild(componentFactory.createUsersListComponent(componentContext))
     }
 
     @Serializable
     private sealed interface Config {
         @Serializable
         data object Games : Config
+
+        @Serializable
+        data object Orders : Config
 
         @Serializable
         data object Users : Config

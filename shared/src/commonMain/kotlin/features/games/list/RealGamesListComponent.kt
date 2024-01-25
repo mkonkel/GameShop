@@ -7,7 +7,6 @@ import com.arkivanov.decompose.value.update
 import features.BaseComponent
 import features.NavigationRouter
 import features.utils.ModelState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -25,7 +24,6 @@ internal class RealGamesListComponent(
 
     init {
         scope.launch {
-            delay(3000)
             modelState.update { ModelState.Success(model) }
         }
     }

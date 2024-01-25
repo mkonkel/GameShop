@@ -1,20 +1,18 @@
 package features.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import features.games.GamesScreen
+import features.orders.OrdersScreen
 import features.users.UsersScreen
+import ui.widget.Widget
 import utils.observeModel
 
 @Composable
@@ -22,35 +20,13 @@ internal fun HomeScreen(
     component: HomeComponent,
     modifier: Modifier = Modifier,
 ) {
-    component.observeModel { model, _ ->
+    component.observeModel { model ->
         Scaffold(
-            topBar = {
-                Row(
-                    modifier = Modifier.fillMaxWidth().background(Color.Gray),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                ) {
-                    Text(model.title)
-                }
-            },
-            bottomBar = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                ) {
-                    Button(
-                        onClick = { component.onUsersClick() },
-                    ) {
-                        Text("USERS")
-                    }
-                    Button(
-                        onClick = { component.onGamesClick() },
-                    ) {
-                        Text("GAMES")
-                    }
-                }
-            },
-        ) {
-            Children(component, modifier)
+            modifier = modifier.fillMaxSize(),
+            topBar = { model.topBar.Widget() },
+            bottomBar = { model.bottomBar.Widget() },
+        ) { paddingValues ->
+            Children(component, paddingValues)
         }
     }
 }
@@ -58,16 +34,17 @@ internal fun HomeScreen(
 @Composable
 private fun Children(
     component: HomeComponent,
-    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues,
 ) {
     Children(
+        modifier = Modifier.padding(paddingValues),
         stack = component.childStack,
-        modifier = modifier,
         animation = stackAnimation(fade()),
     ) {
         when (val child = it.instance) {
-            is HomeComponent.Child.GamesChild -> GamesScreen(child.component, modifier)
-            is HomeComponent.Child.UsersChild -> UsersScreen(child.component, modifier)
+            is HomeComponent.Child.GamesChild -> GamesScreen(child.component)
+            is HomeComponent.Child.UsersChild -> UsersScreen(child.component)
+            is HomeComponent.Child.OrdersChild -> OrdersScreen(child.component)
         }
     }
 }

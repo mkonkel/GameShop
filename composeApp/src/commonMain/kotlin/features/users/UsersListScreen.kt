@@ -5,16 +5,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import utils.observeModel
 
 @Composable
-internal fun UsersScreen(
-    component: UsersListComponent,
-    modifier: Modifier = Modifier,
-) {
-    component.observeModel { model, _ ->
-        Content(component, model, modifier)
+internal fun UsersScreen(component: UsersListComponent) {
+    component.observeModel { model ->
+        Content(component, model)
     }
 }
 
@@ -22,10 +18,8 @@ internal fun UsersScreen(
 private fun Content(
     component: UsersListComponent,
     model: UsersModel,
-    modifier: Modifier,
 ) {
     Column(
-        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

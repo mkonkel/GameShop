@@ -1,5 +1,6 @@
 package dev.michalkonkel.gameshop
 
+import App
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -10,7 +11,6 @@ import com.arkivanov.decompose.router.stack.webhistory.DefaultWebHistoryControll
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import deeplink.DeepLink
 import di.DI
-import features.RootScreen
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 
@@ -25,6 +25,6 @@ fun main() {
         )
 
     CanvasBasedWindow(title = "GameShop", canvasElementId = "gameShopCanvas") {
-        RootScreen(component = root, modifier = Modifier.fillMaxSize())
+        App(component = root, modifier = Modifier.fillMaxSize())
     }
 }

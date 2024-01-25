@@ -19,7 +19,7 @@ internal fun GameDetailsScreen(
     component: GameDetailsComponent,
     modifier: Modifier = Modifier,
 ) {
-    component.observeModel { model, _ ->
+    component.observeModel { model ->
         Content(component, model, modifier)
     }
 }
