@@ -1,6 +1,6 @@
 package dev.michalkonkel.gameshop.features.games.presentation
 
-import dev.michalkonkel.gameshop.domain.games.GameRequest
+import dev.michalkonkel.gameshop.domain.games.AddGameRequest
 import dev.michalkonkel.gameshop.domain.roles.Role
 import dev.michalkonkel.gameshop.plugins.roles.withRole
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
@@ -41,8 +41,8 @@ fun Route.gamesRouting() {
         }
         withRole(Role.ADMIN) {
             post<GamesResources.New> {
-                val gameRequest = call.receive<GameRequest>()
-                val newGame = repo.addGame(gameRequest)
+                val addGameRequest = call.receive<AddGameRequest>()
+                val newGame = repo.addGame(addGameRequest)
 
                 call.respond(newGame)
             }

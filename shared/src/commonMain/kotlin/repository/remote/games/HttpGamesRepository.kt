@@ -1,7 +1,7 @@
 package repository.remote.games
 
 import dev.michalkonkel.gameshop.domain.games.Game
-import dev.michalkonkel.gameshop.domain.games.GameRequest
+import dev.michalkonkel.gameshop.domain.games.AddGameRequest
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import io.ktor.client.HttpClient
 
@@ -14,7 +14,7 @@ internal class HttpGamesRepository(private val client: HttpClient) : GamesReposi
         TODO("Not yet implemented")
     }
 
-    override suspend fun addGame(game: GameRequest): Game {
+    override suspend fun addGame(game: AddGameRequest): Game {
         TODO("Not yet implemented")
     }
 }

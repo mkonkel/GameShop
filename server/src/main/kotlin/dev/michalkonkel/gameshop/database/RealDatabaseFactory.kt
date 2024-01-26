@@ -1,6 +1,7 @@
 package dev.michalkonkel.gameshop.database
 
 import dev.michalkonkel.gameshop.database.tables.Games
+import dev.michalkonkel.gameshop.database.tables.GamesEntity
 import dev.michalkonkel.gameshop.database.tables.RoleEntity
 import dev.michalkonkel.gameshop.database.tables.Roles
 import dev.michalkonkel.gameshop.database.tables.UserEntity
