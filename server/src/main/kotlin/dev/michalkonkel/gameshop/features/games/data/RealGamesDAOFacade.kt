@@ -2,8 +2,8 @@ package dev.michalkonkel.gameshop.features.games.data
 
 import dev.michalkonkel.gameshop.database.dbQuery
 import dev.michalkonkel.gameshop.database.tables.GamesEntity
-import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.AddGameRequest
+import dev.michalkonkel.gameshop.domain.games.Game
 import java.util.UUID
 
 class RealGamesDAOFacade : GamesDAOFacade {
@@ -38,7 +38,7 @@ class RealGamesDAOFacade : GamesDAOFacade {
                 name = it.name,
                 description = it.description,
                 price = it.price,
-                imageUrl = it.imageUrl
+                imageUrl = it.imageUrl,
             )
         }
 }

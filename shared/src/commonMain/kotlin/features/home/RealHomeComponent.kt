@@ -21,6 +21,8 @@ internal class RealHomeComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
     private val componentFactory: ComponentFactory,
+    private val onGamesClick: (String) -> Unit,
+    private val onAddGameClick: () -> Unit,
 ) : BaseComponent(componentContext, coroutineContext), HomeComponent {
     private val navigation = StackNavigation<Config>()
     private val modelState: MutableValue<ModelState<HomeModel>> =
@@ -92,13 +94,23 @@ internal class RealHomeComponent(
         componentContext: ComponentContext,
     ) = when (config) {
         Config.Games ->
-            HomeComponent.Child.GamesChild(componentFactory.createGamesListComponent(componentContext))
+            HomeComponent.Child.GamesChild(
+                componentFactory.createGamesListComponent(
+                    componentContext = componentContext,
+                    onDetails = { onGamesClick(it) },
+                    onAdd = { onAddGameClick() },
+                ),
+            )
 
         Config.Orders ->
             HomeComponent.Child.OrdersChild(componentFactory.createOrdersComponent(componentContext))
 
         Config.Users ->
-            HomeComponent.Child.UsersChild(componentFactory.createUsersListComponent(componentContext))
+            HomeComponent.Child.UsersChild(
+                componentFactory.createUsersListComponent(
+                    componentContext,
+                ),
+            )
     }
 
     @Serializable

@@ -1,7 +1,7 @@
 package dev.michalkonkel.gameshop.repository.games
 
-import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.AddGameRequest
+import dev.michalkonkel.gameshop.domain.games.Game
 
 interface GamesRepository {
     suspend fun getGames(): List<Game>

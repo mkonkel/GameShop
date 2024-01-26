@@ -24,4 +24,10 @@ internal class RealUsersComponent(
             modelState.value = ModelState.Success(UsersModel())
         }
     }
+
+    override fun onEdit() {
+    }
+
+    override fun onDelete() {
+    }
 }

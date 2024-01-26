@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
-import features.NavigationRouter
 import features.RealRootComponent
 import features.RootComponent
 import features.games.detail.GameDetailsComponent
@@ -29,8 +28,6 @@ internal class RealComponentFactory(
     private val mainContext: CoroutineContext,
     private val remoteRepository: RemoteRepository,
 ) : ComponentFactory {
-    private val navigationRouter: NavigationRouter = NavigationRouter()
-
     override fun createRootComponent(
         deepLink: DeepLink,
         webHistoryController: WebHistoryController?,
@@ -41,7 +38,6 @@ internal class RealComponentFactory(
             componentContext = componentContext,
             deepLink = deepLink,
             webHistoryController = webHistoryController,
-            navigationRouter = navigationRouter,
             componentFactory = this,
         )
     }
@@ -50,34 +46,62 @@ internal class RealComponentFactory(
         return RealRegisterComponent(
             componentContext = componentContext,
             coroutineContext = mainContext,
-            navigationRouter = navigationRouter,
             loginRepository = remoteRepository.loginRepository(),
         )
     }
 
-    override fun createLoginComponent(componentContext: ComponentContext): LoginComponent {
+    override fun createLoginComponent(
+        componentContext: ComponentContext,
+        onLogin: () -> Unit,
+        onRegister: () -> Unit,
+    ): LoginComponent {
         return RealLoginComponent(
             coroutineContext = mainContext,
             componentContext = componentContext,
             loginRepository = remoteRepository.loginRepository(),
-            navigationRouter = navigationRouter,
+            onLogin = onLogin,
+            onRegister = onRegister,
         )
     }
 
-    override fun createHomeComponent(componentContext: ComponentContext): HomeComponent {
+    override fun createHomeComponent(
+        componentContext: ComponentContext,
+        onGamesClick: (String) -> Unit,
+        onAddGameClick: () -> Unit,
+    ): HomeComponent {
         return RealHomeComponent(
             coroutineContext = mainContext,
             componentContext = componentContext,
             componentFactory = this,
+            onGamesClick = onGamesClick,
+            onAddGameClick = onAddGameClick,
         )
     }
 
-    override fun createGamesListComponent(componentContext: ComponentContext): GamesListComponent {
-        return RealGamesListComponent(componentContext, mainContext, navigationRouter)
+    override fun createGamesListComponent(
+        componentContext: ComponentContext,
+        onDetails: (String) -> Unit,
+        onAdd: () -> Unit,
+    ): GamesListComponent {
+        return RealGamesListComponent(
+            componentContext,
+            mainContext,
+            remoteRepository.gamesRepository(),
+            onDetails,
+            onAdd,
+        )
     }
 
-    override fun createGameDetailsComponent(componentContext: ComponentContext): GameDetailsComponent {
-        return RealGameDetailsComponent(componentContext, mainContext)
+    override fun createGameDetailsComponent(
+        componentContext: ComponentContext,
+        gameId: String,
+    ): GameDetailsComponent {
+        return RealGameDetailsComponent(
+            componentContext,
+            mainContext,
+            remoteRepository.gamesRepository(),
+            gameId,
+        )
     }
 
     override fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent {

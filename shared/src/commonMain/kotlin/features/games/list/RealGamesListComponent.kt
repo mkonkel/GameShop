@@ -4,33 +4,45 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
+import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
-import features.NavigationRouter
 import features.utils.ModelState
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 internal class RealGamesListComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-    private val navigationRouter: NavigationRouter,
+    private val gamesRepository: GamesRepository,
+    private val onGameDetails: (String) -> Unit,
+    private val onAddGame: () -> Unit,
 ) : BaseComponent(componentContext, coroutineContext), GamesListComponent {
     private val modelState: MutableValue<ModelState<GamesListModel>> =
         MutableValue(ModelState.Loading())
 
     override val modelValue: Value<ModelState<GamesListModel>> = modelState
 
-    private val model: GamesListModel = GamesListModel()
+    private lateinit var model: GamesListModel
 
     init {
         scope.launch {
-            modelState.update { ModelState.Success(model) }
+            delay(3000)
+            try {
+                val games = gamesRepository.getGames()
+                model = GamesModelMapper.mapModel(games, ::onAddClicked)
+                modelState.update { ModelState.Success(model) }
+            } catch (e: Exception) {
+                modelState.update { ModelState.Error("Something went wrong") }
+            }
         }
     }
 
-    override fun onGameClicked(it: String) {
-        scope.launch {
-            navigationRouter.push(NavigationRouter.Destination.GAME_DETAILS)
-        }
+    override fun onGameClicked(id: String) {
+        onGameDetails(id)
+    }
+
+    override fun onAddClicked() {
+        onAddGame()
     }
 }

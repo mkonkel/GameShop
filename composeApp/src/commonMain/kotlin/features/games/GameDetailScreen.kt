@@ -36,11 +36,12 @@ private fun Content(
         verticalArrangement = Arrangement.Center,
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Text(model.name)
+            Text(model.content.description)
             Spacer(modifier = Modifier.requiredHeight(20.dp))
-            Text(model.description)
+            Text(model.content.description)
+
             Spacer(modifier = Modifier.requiredHeight(20.dp))
-            Text("Rating: ${model.rating}/5")
+            Text("Rating: ${model.content.price}/5")
         }
     }
 }

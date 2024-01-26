@@ -5,7 +5,6 @@ import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
 import features.BaseComponent
-import features.NavigationRouter
 import features.root.login.RegisterComponent
 import features.root.login.RegisterModel
 import features.utils.ModelState
@@ -16,7 +15,6 @@ import kotlin.coroutines.CoroutineContext
 internal class RealRegisterComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-    private val navigationRouter: NavigationRouter,
     private val loginRepository: LoginRepository,
 ) : BaseComponent(componentContext, coroutineContext), RegisterComponent {
     private val modelState: MutableValue<ModelState<RegisterModel>> =

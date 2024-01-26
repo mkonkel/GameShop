@@ -11,12 +11,12 @@ data class Order(
     val orderDate: String,
     val games: List<Game>,
     val price: Float,
-    val address: String
+    val address: String,
 )
 
 @Serializable
 data class AddOrderRequest(
     @SerialName("games")
     val gameIds: List<String>,
-    val address: String
+    val address: String,
 )

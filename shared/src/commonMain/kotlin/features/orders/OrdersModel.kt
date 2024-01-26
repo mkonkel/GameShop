@@ -7,34 +7,53 @@ data class OrdersModel(
         listOf(
             Item(
                 id = "1",
-                date = "Doom",
+                orderDate = "2024-01-24",
+                games =
+                    listOf(
+                        "Doom",
+                        "Quake",
+                    ),
                 price = "9.99",
-                quantity = "1",
+                address = "Gdańsk, ul. Gdańska 1",
             ),
             Item(
                 id = "2",
-                date = "Doom 2",
-                price = "9.99",
-                quantity = "1",
+                orderDate = "2024-01-24",
+                games =
+                    listOf(
+                        "Duke Nukem",
+                    ),
+                price = "4.99",
+                address = "Gdynia, ul. Gdyńska 1",
             ),
             Item(
                 id = "3",
-                date = "Quake",
-                price = "9.99",
-                quantity = "1",
+                orderDate = "2024-01-24",
+                games =
+                    listOf(
+                        "Heretic",
+                        "Hexen",
+                    ),
+                price = "19.99",
+                address = "Gdańsk, ul. Gdańska 1",
             ),
             Item(
                 id = "4",
-                date = "Quake 2",
-                price = "19.99",
-                quantity = "3",
+                orderDate = "2024-01-24",
+                games =
+                    listOf(
+                        "Wolfenstein",
+                    ),
+                price = "5.99",
+                address = "Olsztyn, ul. Olsztyńska 1",
             ),
         ),
 ) : Model {
     data class Item(
         val id: String,
-        val date: String,
+        val orderDate: String,
+        val games: List<String>,
         val price: String,
-        val quantity: String,
+        val address: String,
     )
 }

@@ -1,7 +1,7 @@
 package dev.michalkonkel.gameshop.features.games.domain
 
-import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.AddGameRequest
+import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.features.games.data.GamesDAOFacade
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 

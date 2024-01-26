@@ -23,15 +23,30 @@ interface ComponentFactory {
 
     fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent
 
-    fun createLoginComponent(componentContext: ComponentContext): LoginComponent
+    fun createLoginComponent(
+        componentContext: ComponentContext,
+        onLogin: () -> Unit,
+        onRegister: () -> Unit,
+    ): LoginComponent
 
-    fun createHomeComponent(componentContext: ComponentContext): HomeComponent
+    fun createHomeComponent(
+        componentContext: ComponentContext,
+        onGamesClick: (String) -> Unit,
+        onAddGameClick: () -> Unit,
+    ): HomeComponent
 
-    fun createGamesListComponent(componentContext: ComponentContext): GamesListComponent
+    fun createGamesListComponent(
+        componentContext: ComponentContext,
+        onDetails: (String) -> Unit,
+        onAdd: () -> Unit,
+    ): GamesListComponent
 
     fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent
 
-    fun createGameDetailsComponent(componentContext: ComponentContext): GameDetailsComponent
+    fun createGameDetailsComponent(
+        componentContext: ComponentContext,
+        gameId: String,
+    ): GameDetailsComponent
 
     fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent
 }

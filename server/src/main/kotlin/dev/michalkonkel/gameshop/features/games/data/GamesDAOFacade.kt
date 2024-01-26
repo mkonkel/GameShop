@@ -1,7 +1,7 @@
 package dev.michalkonkel.gameshop.features.games.data
 
-import dev.michalkonkel.gameshop.domain.games.Game
 import dev.michalkonkel.gameshop.domain.games.AddGameRequest
+import dev.michalkonkel.gameshop.domain.games.Game
 
 interface GamesDAOFacade {
     suspend fun createGame(addGameRequest: AddGameRequest): Game

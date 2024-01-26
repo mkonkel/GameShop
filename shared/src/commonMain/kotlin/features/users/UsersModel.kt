@@ -3,15 +3,28 @@ package features.users
 import features.utils.Model
 
 data class UsersModel(
-    val users: List<String> =
+    val users: List<Item> =
         listOf(
-            "John Doe",
-            "Jane Doe",
-            "John Smith",
-            "Jane Smith",
-            "John Johnson",
-            "Jane Johnson",
-            "John Williams",
-            "Jane Williams",
+            Item(
+                username = "michalkonkel",
+                name = "Michał Konkel",
+            ),
+            Item(
+                username = "johnsmith",
+                name = "John Smith",
+            ),
+            Item(
+                username = "janek",
+                name = "Jan Kowalski",
+            ),
+            Item(
+                username = "jankowalski",
+                name = "Jan Kowalski",
+            ),
         ),
-) : Model
+) : Model {
+    data class Item(
+        val username: String,
+        val name: String,
+    )
+}
