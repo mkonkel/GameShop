@@ -5,7 +5,6 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
@@ -14,6 +13,7 @@ import features.factory.ComponentFactory
 import features.utils.ModelState
 import kotlinx.serialization.Serializable
 import widget.bottombar.BottomBarModel
+import widget.button.Button
 import widget.topbar.TopBarModel
 import kotlin.coroutines.CoroutineContext
 
@@ -21,6 +21,7 @@ internal class RealHomeComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
     private val componentFactory: ComponentFactory,
+    private val onClose: () -> Unit,
     private val onGamesClick: (String) -> Unit,
     private val onAddGameClick: () -> Unit,
 ) : BaseComponent(componentContext, coroutineContext), HomeComponent {
@@ -35,30 +36,34 @@ internal class RealHomeComponent(
                 TopBarModel(
                     title = "Home",
                     onBackClick = {
-                        navigation.pop()
+                        onClose()
                     },
                 ),
             bottomBar =
                 BottomBarModel(
                     items =
                         listOf(
-                            BottomBarModel.Item(
-                                label = "Games",
-                                onClick = ::onGamesClick,
+                            Button(
+                                text = "Games",
+                                style = Button.Style.TEXT,
+                                onClick = { games() },
                             ),
-                            BottomBarModel.Item(
-                                label = "Orders",
-                                onClick = ::onOrdersClick,
+                            Button(
+                                text = "Orders",
+                                style = Button.Style.TEXT,
+                                onClick = { orders() },
                             ),
-                            BottomBarModel.Item(
-                                label = "Users",
-                                onClick = ::onUsersClick,
+                            Button(
+                                text = "Users",
+                                style = Button.Style.TEXT,
+                                onClick = { users() },
                             ),
                         ),
                 ),
         )
 
     init {
+        games()
         modelState.update { ModelState.Success(model) }
     }
 
@@ -73,21 +78,6 @@ internal class RealHomeComponent(
         )
 
     override val childStack: Value<ChildStack<*, HomeComponent.Child>> = stack
-
-    private fun onUsersClick(item: BottomBarModel.Item) {
-        model.bottomBar.selectItem(item)
-        navigation.bringToFront(Config.Users)
-    }
-
-    private fun onGamesClick(item: BottomBarModel.Item) {
-        model.bottomBar.selectItem(item)
-        navigation.bringToFront(Config.Games)
-    }
-
-    private fun onOrdersClick(item: BottomBarModel.Item) {
-        model.bottomBar.selectItem(item)
-        navigation.bringToFront(Config.Orders)
-    }
 
     private fun childFactory(
         config: Config,
@@ -111,6 +101,21 @@ internal class RealHomeComponent(
                     componentContext,
                 ),
             )
+    }
+
+    private fun games() {
+        model.topBar.title.value = "Games"
+        navigation.bringToFront(Config.Games)
+    }
+
+    private fun orders() {
+        model.topBar.title.value = "Orders"
+        navigation.bringToFront(Config.Orders)
+    }
+
+    private fun users() {
+        model.topBar.title.value = "Users"
+        navigation.bringToFront(Config.Users)
     }
 
     @Serializable

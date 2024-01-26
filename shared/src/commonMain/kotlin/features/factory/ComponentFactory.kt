@@ -5,6 +5,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
 import features.RootComponent
+import features.games.add.AddGameComponent
 import features.games.detail.GameDetailsComponent
 import features.games.detail.OrdersComponent
 import features.games.list.GamesListComponent
@@ -31,6 +32,7 @@ interface ComponentFactory {
 
     fun createHomeComponent(
         componentContext: ComponentContext,
+        onCloseClick: () -> Unit,
         onGamesClick: (String) -> Unit,
         onAddGameClick: () -> Unit,
     ): HomeComponent
@@ -46,7 +48,16 @@ interface ComponentFactory {
     fun createGameDetailsComponent(
         componentContext: ComponentContext,
         gameId: String,
+        onBackClick: () -> Unit,
+        onEditClick: () -> Unit,
     ): GameDetailsComponent
+
+    fun createAddGameComponent(
+        componentContext: ComponentContext,
+        gameId: String? = null,
+        onBackClick: () -> Unit,
+        onAddGameClick: () -> Unit,
+    ): AddGameComponent
 
     fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent
 }

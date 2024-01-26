@@ -15,7 +15,7 @@ import widget.input.InputText
 
 @Composable
 fun InputText.Widget(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     imageVector: ImageVector? = null,
 ) {
     var currentText by remember { text }
@@ -26,11 +26,10 @@ fun InputText.Widget(
             currentText = it
         },
         modifier = Modifier.then(modifier),
-        leadingIcon = {
+        leadingIcon =
             imageVector?.let {
-                Icon(imageVector = imageVector, contentDescription = "")
-            }
-        },
+                { Icon(imageVector = imageVector, contentDescription = "") }
+            },
         label = {
             println("label: $label")
             Text(label)

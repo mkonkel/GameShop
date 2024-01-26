@@ -7,6 +7,7 @@ import com.arkivanov.decompose.value.update
 import features.BaseComponent
 import features.utils.ModelState
 import repository.remote.login.LoginRepository
+import widget.button.Button
 import widget.input.InputText
 import kotlin.coroutines.CoroutineContext
 
@@ -33,6 +34,18 @@ internal class RealLoginComponent(
                 InputText(
                     type = InputText.Type.SECURE,
                     label = "Password",
+                ),
+            loginButton =
+                Button(
+                    style = Button.Style.FILLED,
+                    text = "Login",
+                    onClick = { onLoginClick() },
+                ),
+            registerButton =
+                Button(
+                    style = Button.Style.OUTLINED,
+                    text = "Register",
+                    onClick = { onRegisterClick() },
                 ),
         )
 

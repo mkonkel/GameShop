@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
+import features.games.AddGameScreen
 import features.games.GameDetailsScreen
 import features.home.HomeScreen
 import features.login.LoginScreen
@@ -71,6 +72,12 @@ private fun Children(
 
             is RootComponent.Child.GameDetails ->
                 GameDetailsScreen(
+                    child.component,
+                    modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
+                )
+
+            is RootComponent.Child.AddGame ->
+                AddGameScreen(
                     child.component,
                     modifier = Modifier.padding(horizontal = 16.dp).fillMaxSize(),
                 )

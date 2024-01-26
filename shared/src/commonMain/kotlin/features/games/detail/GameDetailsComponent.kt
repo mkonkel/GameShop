@@ -2,6 +2,4 @@ package features.games.detail
 
 import features.Component
 
-interface GameDetailsComponent : Component<GameDetailsModel> {
-    fun onBackClick()
-}
+interface GameDetailsComponent : Component<GameDetailsModel>

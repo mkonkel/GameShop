@@ -5,6 +5,8 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.popWhile
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import com.arkivanov.decompose.value.Value
@@ -80,11 +82,14 @@ internal class RealRootComponent(
             RootComponent.Child.HomeChild(
                 componentFactory.createHomeComponent(
                     componentContext = componentContext,
+                    onCloseClick = {
+                        navigation.popWhile { it !is Config.Login }
+                    },
                     onGamesClick = {
                         navigation.pushNew(Config.GameDetails(it))
                     },
                     onAddGameClick = {
-                        navigation.pushNew(Config.AddGame)
+                        navigation.pushNew(Config.AddGame(null))
                     },
                 ),
             )
@@ -95,11 +100,30 @@ internal class RealRootComponent(
                 componentFactory.createGameDetailsComponent(
                     componentContext = componentContext,
                     gameId = config.gameId,
+                    onBackClick = {
+                        navigation.pop()
+                    },
+                    onEditClick = {
+                        navigation.pushNew(Config.AddGame(config.gameId))
+                    },
                 ),
             )
         }
 
-        Config.AddGame -> TODO()
+        is Config.AddGame -> {
+            RootComponent.Child.AddGame(
+                componentFactory.createAddGameComponent(
+                    componentContext = componentContext,
+                    gameId = config.gameId,
+                    onBackClick = {
+                        navigation.pop()
+                    },
+                    onAddGameClick = {
+                        navigation.pop()
+                    },
+                ),
+            )
+        }
     }
 
     private companion object {
@@ -129,7 +153,7 @@ internal class RealRootComponent(
                 Config.Login -> "/$WEB_PATH_LOGIN"
                 Config.Register -> "/$WEB_PATH_REGISTER"
                 Config.Home -> "/$WEB_PATH_HOME"
-                Config.AddGame -> "/$WEB_PATH_GAMES_ADD"
+                is Config.AddGame -> "/$WEB_PATH_GAMES_ADD/${config.gameId}"
                 is Config.GameDetails -> "/$WEB_PATH_GAMES_DETAIL/${config.gameId}"
             }
 
@@ -138,7 +162,7 @@ internal class RealRootComponent(
                 WEB_PATH_LOGIN -> Config.Login
                 WEB_PATH_REGISTER -> Config.Register
                 WEB_PATH_HOME -> Config.Home
-                WEB_PATH_GAMES_ADD -> Config.AddGame
+                WEB_PATH_GAMES_ADD -> Config.AddGame("1")
                 WEB_PATH_GAMES_DETAIL -> Config.GameDetails("1") // TODO change to real id
                 else -> Config.Login
             }
@@ -156,7 +180,7 @@ internal class RealRootComponent(
         data object Home : Config
 
         @Serializable
-        data object AddGame : Config
+        data class AddGame(val gameId: String?) : Config
 
         @Serializable
         data class GameDetails(val gameId: String) : Config

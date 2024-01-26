@@ -6,9 +6,9 @@ data class Button(
     val onClick: () -> Unit,
 ) {
     enum class Style {
-        PRIMARY,
-        SECONDARY,
-        TERTIARY,
+        FILLED,
+        OUTLINED,
+        TEXT,
         FLOATING,
     }
 }

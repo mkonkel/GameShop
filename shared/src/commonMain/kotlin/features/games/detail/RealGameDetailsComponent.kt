@@ -16,6 +16,8 @@ internal class RealGameDetailsComponent(
     coroutineContext: CoroutineContext,
     private val gamesRepository: GamesRepository,
     private val gameId: String,
+    private val onBackClick: () -> Unit,
+    private val onEditClick: () -> Unit,
 ) : BaseComponent(componentContext, coroutineContext), GameDetailsComponent {
     private val modelState: MutableValue<ModelState<GameDetailsModel>> =
         MutableValue(ModelState.Loading())
@@ -32,16 +34,12 @@ internal class RealGameDetailsComponent(
                 if (game == null) {
                     modelState.update { ModelState.Error("Game not found") }
                 } else {
-                    model = GameDetailsModelMapper.mapModel(game, ::onBackClick)
+                    model = GameDetailsModelMapper.mapModel(game, onBackClick, onEditClick)
                     modelState.update { ModelState.Success(model) }
                 }
             } catch (e: Exception) {
                 modelState.update { ModelState.Error("Something went wrong") }
             }
         }
-    }
-
-    override fun onBackClick() {
-        println("back")
     }
 }

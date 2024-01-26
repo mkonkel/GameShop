@@ -70,10 +70,10 @@ fun GamesListModel.Item.Widget(onClick: () -> Unit) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Rating",
+                    text = "Price",
                     fontWeight = FontWeight.Bold,
                 )
-                Text(text = rating.toString())
+                Text(text = price)
             }
         }
     }

@@ -6,6 +6,8 @@ import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
 import features.RealRootComponent
 import features.RootComponent
+import features.games.add.AddGameComponent
+import features.games.add.RealAddGameComponent
 import features.games.detail.GameDetailsComponent
 import features.games.detail.OrdersComponent
 import features.games.detail.RealGameDetailsComponent
@@ -66,6 +68,7 @@ internal class RealComponentFactory(
 
     override fun createHomeComponent(
         componentContext: ComponentContext,
+        onCloseClick: () -> Unit,
         onGamesClick: (String) -> Unit,
         onAddGameClick: () -> Unit,
     ): HomeComponent {
@@ -73,6 +76,7 @@ internal class RealComponentFactory(
             coroutineContext = mainContext,
             componentContext = componentContext,
             componentFactory = this,
+            onClose = onCloseClick,
             onGamesClick = onGamesClick,
             onAddGameClick = onAddGameClick,
         )
@@ -95,12 +99,32 @@ internal class RealComponentFactory(
     override fun createGameDetailsComponent(
         componentContext: ComponentContext,
         gameId: String,
+        onBackClick: () -> Unit,
+        onEditClick: () -> Unit,
     ): GameDetailsComponent {
         return RealGameDetailsComponent(
             componentContext,
             mainContext,
             remoteRepository.gamesRepository(),
             gameId,
+            onBackClick,
+            onEditClick,
+        )
+    }
+
+    override fun createAddGameComponent(
+        componentContext: ComponentContext,
+        gameId: String?,
+        onBackClick: () -> Unit,
+        onAddGameClick: () -> Unit,
+    ): AddGameComponent {
+        return RealAddGameComponent(
+            componentContext,
+            mainContext,
+            remoteRepository.gamesRepository(),
+            gameId,
+            onBackClick,
+            onAddGameClick,
         )
     }
 

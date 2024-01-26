@@ -16,7 +16,7 @@ object GamesModelMapper {
                         name = game.name,
                         description = game.description,
                         image = game.imageUrl,
-                        rating = 0,
+                        price = game.price,
                     )
                 },
             addButton =

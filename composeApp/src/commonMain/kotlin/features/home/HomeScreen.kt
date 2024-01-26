@@ -1,11 +1,13 @@
 package features.home
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
@@ -22,11 +24,13 @@ internal fun HomeScreen(
 ) {
     component.observeModel { model ->
         Scaffold(
-            modifier = modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
             topBar = { model.topBar.Widget() },
             bottomBar = { model.bottomBar.Widget() },
         ) { paddingValues ->
-            Children(component, paddingValues)
+            Column(modifier = Modifier.padding(8.dp)) {
+                Children(component, paddingValues)
+            }
         }
     }
 }

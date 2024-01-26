@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import ui.widget.Widget
 import ui.widget.input.Widget
 import utils.observeModel
 
@@ -77,12 +76,8 @@ private fun Content(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Button(onClick = { component.onLoginClick() }) {
-                        Text("Login")
-                    }
-                    OutlinedButton(onClick = { component.onRegisterClick() }) {
-                        Text("Register")
-                    }
+                    model.loginButton.Widget()
+                    model.registerButton.Widget()
                 }
             }
         }
