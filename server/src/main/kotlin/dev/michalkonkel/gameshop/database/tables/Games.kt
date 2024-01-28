@@ -10,7 +10,7 @@ object Games : UUIDTable() {
     val name = varchar("name", 128)
     val description = text("description")
     val price = varchar("price", 128)
-    val imageUrl = varchar("price", 255)
+    val imageUrl = varchar("imageUrl", 255)
 }
 
 class GamesEntity(id: EntityID<UUID>) : UUIDEntity(id) {

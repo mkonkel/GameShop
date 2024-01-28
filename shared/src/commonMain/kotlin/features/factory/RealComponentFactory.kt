@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
+import di.DI
 import features.RealRootComponent
 import features.RootComponent
 import features.games.add.AddGameComponent
@@ -79,6 +80,7 @@ internal class RealComponentFactory(
             onClose = onCloseClick,
             onGamesClick = onGamesClick,
             onAddGameClick = onAddGameClick,
+            user = DI.currentUser,
         )
     }
 
@@ -93,6 +95,7 @@ internal class RealComponentFactory(
             remoteRepository.gamesRepository(),
             onDetails,
             onAdd,
+            DI.currentUser
         )
     }
 
@@ -109,6 +112,7 @@ internal class RealComponentFactory(
             gameId,
             onBackClick,
             onEditClick,
+            DI.currentUser
         )
     }
 

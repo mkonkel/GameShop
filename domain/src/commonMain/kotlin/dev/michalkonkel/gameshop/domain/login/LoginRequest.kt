@@ -1,5 +1,6 @@
 package dev.michalkonkel.gameshop.domain.login
 
+import dev.michalkonkel.gameshop.domain.user.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,4 +16,6 @@ data class LoginRequest(
 data class LoginResponse(
     @SerialName("token")
     val token: String,
+    @SerialName("user")
+    val user: User,
 )

@@ -6,6 +6,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
 import deeplink.DeepLink
+import dev.michalkonkel.gameshop.domain.user.User
 import features.RootComponent
 import features.factory.RealComponentFactory
 import repository.local.RealTokenStorage
@@ -36,4 +37,6 @@ object DI {
             componentContext = componentContext,
         )
     }
+
+    internal lateinit var currentUser: User
 }

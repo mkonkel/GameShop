@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
+import dev.michalkonkel.gameshop.domain.user.User
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
 import features.utils.ModelState
@@ -17,6 +18,7 @@ internal class RealGamesListComponent(
     private val gamesRepository: GamesRepository,
     private val onGameDetails: (String) -> Unit,
     private val onAddGame: () -> Unit,
+    private val user: User,
 ) : BaseComponent(componentContext, coroutineContext), GamesListComponent {
     private val modelState: MutableValue<ModelState<GamesListModel>> =
         MutableValue(ModelState.Loading())
@@ -30,7 +32,7 @@ internal class RealGamesListComponent(
             delay(3000)
             try {
                 val games = gamesRepository.getGames()
-                model = GamesModelMapper.mapModel(games, ::onAddClicked)
+                model = GamesModelMapper.mapModel(games, user, ::onAddClicked)
                 modelState.update { ModelState.Success(model) }
             } catch (e: Exception) {
                 modelState.update { ModelState.Error("Something went wrong") }

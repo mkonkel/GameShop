@@ -33,7 +33,7 @@ class RealDatabaseFactory : DatabaseFactory {
                 SchemaUtils.create(Games)
 
                 val adminRole = RoleEntity.new { name = "admin" }
-                RoleEntity.new { name = "user" }
+                val userRole = RoleEntity.new { name = "user" }
 
                 UserEntity.new {
                     name = "Admin"
@@ -47,6 +47,20 @@ class RealDatabaseFactory : DatabaseFactory {
                             .date
                             .toString()
                     role = adminRole
+                }
+
+                UserEntity.new {
+                    name = "Admin"
+                    username = "user"
+                    password = "pass"
+                    dateCreated =
+                        Clock
+                            .System
+                            .now()
+                            .toLocalDateTime(TimeZone.UTC)
+                            .date
+                            .toString()
+                    role = userRole
                 }
             }
         }

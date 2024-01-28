@@ -8,6 +8,8 @@ import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
+import dev.michalkonkel.gameshop.domain.roles.Role
+import dev.michalkonkel.gameshop.domain.user.User
 import features.BaseComponent
 import features.factory.ComponentFactory
 import features.utils.ModelState
@@ -24,6 +26,7 @@ internal class RealHomeComponent(
     private val onClose: () -> Unit,
     private val onGamesClick: (String) -> Unit,
     private val onAddGameClick: () -> Unit,
+    private val user: User,
 ) : BaseComponent(componentContext, coroutineContext), HomeComponent {
     private val navigation = StackNavigation<Config>()
     private val modelState: MutableValue<ModelState<HomeModel>> =
@@ -33,33 +36,42 @@ internal class RealHomeComponent(
     private val model: HomeModel =
         HomeModel(
             topBar =
-                TopBarModel(
-                    title = "Home",
-                    onBackClick = {
-                        onClose()
-                    },
-                ),
+            TopBarModel(
+                title = "Home",
+                onBackClick = {
+                    onClose()
+                },
+            ),
             bottomBar =
-                BottomBarModel(
-                    items =
-                        listOf(
-                            Button(
-                                text = "Games",
-                                style = Button.Style.TEXT,
-                                onClick = { games() },
-                            ),
-                            Button(
-                                text = "Orders",
-                                style = Button.Style.TEXT,
-                                onClick = { orders() },
-                            ),
+            BottomBarModel(
+                items =
+                buildList {
+                    add(
+                        Button(
+                            text = "Games",
+                            style = Button.Style.TEXT,
+                            onClick = { games() },
+                        )
+                    )
+                    add(
+                        Button(
+                            text = "Orders",
+                            style = Button.Style.TEXT,
+                            onClick = { orders() },
+                        )
+                    )
+
+                    if (user.role == Role.ADMIN) {
+                        add(
                             Button(
                                 text = "Users",
                                 style = Button.Style.TEXT,
                                 onClick = { users() },
-                            ),
-                        ),
-                ),
+                            )
+                        )
+                    }
+                }
+            )
         )
 
     init {
@@ -93,7 +105,11 @@ internal class RealHomeComponent(
             )
 
         Config.Orders ->
-            HomeComponent.Child.OrdersChild(componentFactory.createOrdersComponent(componentContext))
+            HomeComponent.Child.OrdersChild(
+                componentFactory.createOrdersComponent(
+                    componentContext
+                )
+            )
 
         Config.Users ->
             HomeComponent.Child.UsersChild(
