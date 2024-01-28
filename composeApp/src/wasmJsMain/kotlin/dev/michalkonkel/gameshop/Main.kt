@@ -1,6 +1,5 @@
 package dev.michalkonkel.gameshop
 
-import App
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier

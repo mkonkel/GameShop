@@ -6,9 +6,8 @@ import widget.input.Validatable
 
 class FormInputValidator(
     val inputText: InputText,
-    private val validators: List<InputValidator<String, String>>
+    private val validators: List<InputValidator<String, String>>,
 ) : Validatable<String> {
-
     override fun validate(): InputValidator.Result<String> {
         return validators.map { validator -> validator.validate(inputText.text.value) }
             .let { results ->

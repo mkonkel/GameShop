@@ -37,6 +37,7 @@ interface InputValidator<I, R> {
 
     sealed class Result<R> {
         data class Success<R>(val value: R) : Result<R>()
+
         data class Error<R>(val message: String) : Result<R>()
     }
 }

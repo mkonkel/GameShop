@@ -25,43 +25,51 @@ internal class RealLoginComponent(
         MutableValue(ModelState.Loading())
 
     override val modelValue: Value<ModelState<LoginModel>> = modelState
-    private val loginValidation = FormInputValidator(
-        inputText = InputText(
-            type = InputText.Type.NORMAL,
-            label = "Login",
-        ),
-        validators = listOf(
-            InputValidator.Required("Field is required"),
-            InputValidator.MinLength(3, "Field must be at least 3 characters long"),
-            InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
-        ),
-    )
-    private val passwordValidation = FormInputValidator(
-        inputText = InputText(
-            type = InputText.Type.NORMAL,
-            label = "Passeord",
-        ),
-        validators = listOf(
-            InputValidator.Required("Field is required"),
-            InputValidator.MinLength(3, "Field must be at least 3 characters long"),
-            InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
-        ),
-    )
+    private val loginValidation =
+        FormInputValidator(
+            inputText =
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Login",
+                ),
+            validators =
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
+        )
+    private val passwordValidation =
+        FormInputValidator(
+            inputText =
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Passeord",
+                ),
+            validators =
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
+        )
 
     val model =
         LoginModel(
             login = loginValidation.inputText,
             pass = passwordValidation.inputText,
-            loginButton = Button(
-                style = Button.Style.FILLED,
-                text = "Login",
-                onClick = { onLoginClick() },
-            ),
-            registerButton = Button(
-                style = Button.Style.OUTLINED,
-                text = "Register",
-                onClick = { onRegisterClick() },
-            ),
+            loginButton =
+                Button(
+                    style = Button.Style.FILLED,
+                    text = "Login",
+                    onClick = { onLoginClick() },
+                ),
+            registerButton =
+                Button(
+                    style = Button.Style.OUTLINED,
+                    text = "Register",
+                    onClick = { onRegisterClick() },
+                ),
         )
 
     init {
