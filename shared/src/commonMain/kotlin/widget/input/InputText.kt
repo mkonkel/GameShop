@@ -8,6 +8,7 @@ data class InputText(
     val label: String = "",
     val maxLines: Int = 1,
     val type: Type = Type.NORMAL,
+    val errorMessage: MutableState<String> = mutableStateOf(""),
 ) {
     enum class Type {
         NORMAL,
