@@ -36,42 +36,42 @@ internal class RealHomeComponent(
     private val model: HomeModel =
         HomeModel(
             topBar =
-            TopBarModel(
-                title = "Home",
-                onBackClick = {
-                    onClose()
-                },
-            ),
+                TopBarModel(
+                    title = "Home",
+                    onBackClick = {
+                        onClose()
+                    },
+                ),
             bottomBar =
-            BottomBarModel(
-                items =
-                buildList {
-                    add(
-                        Button(
-                            text = "Games",
-                            style = Button.Style.TEXT,
-                            onClick = { games() },
-                        )
-                    )
-                    add(
-                        Button(
-                            text = "Orders",
-                            style = Button.Style.TEXT,
-                            onClick = { orders() },
-                        )
-                    )
-
-                    if (user.role == Role.ADMIN) {
-                        add(
-                            Button(
-                                text = "Users",
-                                style = Button.Style.TEXT,
-                                onClick = { users() },
+                BottomBarModel(
+                    items =
+                        buildList {
+                            add(
+                                Button(
+                                    text = "Games",
+                                    style = Button.Style.TEXT,
+                                    onClick = { games() },
+                                ),
                             )
-                        )
-                    }
-                }
-            )
+                            add(
+                                Button(
+                                    text = "Orders",
+                                    style = Button.Style.TEXT,
+                                    onClick = { orders() },
+                                ),
+                            )
+
+                            if (user.role == Role.ADMIN) {
+                                add(
+                                    Button(
+                                        text = "Users",
+                                        style = Button.Style.TEXT,
+                                        onClick = { users() },
+                                    ),
+                                )
+                            }
+                        },
+                ),
         )
 
     init {
@@ -107,8 +107,8 @@ internal class RealHomeComponent(
         Config.Orders ->
             HomeComponent.Child.OrdersChild(
                 componentFactory.createOrdersComponent(
-                    componentContext
-                )
+                    componentContext,
+                ),
             )
 
         Config.Users ->

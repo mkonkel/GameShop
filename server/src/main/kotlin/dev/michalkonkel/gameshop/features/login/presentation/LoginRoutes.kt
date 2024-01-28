@@ -43,7 +43,7 @@ fun Route.loginRouting() {
                         LoginResponse(
                             token = token,
                             user = it,
-                        )
+                        ),
                     )
                 } ?: call.respondText(
                 status = HttpStatusCode.BadRequest,

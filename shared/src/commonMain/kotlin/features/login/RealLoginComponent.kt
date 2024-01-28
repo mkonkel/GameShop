@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
-import dev.michalkonkel.gameshop.repository.users.UsersRepository
 import di.DI
 import features.BaseComponent
 import features.utils.ModelState
@@ -30,30 +29,30 @@ internal class RealLoginComponent(
     private val loginValidation =
         FormInputValidator(
             inputText =
-            InputText(
-                type = InputText.Type.NORMAL,
-                label = "Login",
-            ),
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Login",
+                ),
             validators =
-            listOf(
-                InputValidator.Required("Field is required"),
-                InputValidator.MinLength(3, "Field must be at least 3 characters long"),
-                InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
-            ),
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
         )
     private val passwordValidation =
         FormInputValidator(
             inputText =
-            InputText(
-                type = InputText.Type.NORMAL,
-                label = "Passeord",
-            ),
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Passeord",
+                ),
             validators =
-            listOf(
-                InputValidator.Required("Field is required"),
-                InputValidator.MinLength(3, "Field must be at least 3 characters long"),
-                InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
-            ),
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
         )
 
     val model =
@@ -61,17 +60,17 @@ internal class RealLoginComponent(
             login = loginValidation.inputText,
             pass = passwordValidation.inputText,
             loginButton =
-            Button(
-                style = Button.Style.FILLED,
-                text = "Login",
-                onClick = { onLoginClick() },
-            ),
+                Button(
+                    style = Button.Style.FILLED,
+                    text = "Login",
+                    onClick = { onLoginClick() },
+                ),
             registerButton =
-            Button(
-                style = Button.Style.OUTLINED,
-                text = "Register",
-                onClick = { onRegisterClick() },
-            ),
+                Button(
+                    style = Button.Style.OUTLINED,
+                    text = "Register",
+                    onClick = { onRegisterClick() },
+                ),
         )
 
     init {

@@ -95,7 +95,7 @@ internal class RealComponentFactory(
             remoteRepository.gamesRepository(),
             onDetails,
             onAdd,
-            DI.currentUser
+            DI.currentUser,
         )
     }
 
@@ -112,7 +112,7 @@ internal class RealComponentFactory(
             gameId,
             onBackClick,
             onEditClick,
-            DI.currentUser
+            DI.currentUser,
         )
     }
 

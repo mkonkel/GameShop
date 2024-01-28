@@ -13,24 +13,25 @@ object GamesModelMapper {
     ): GamesListModel {
         return GamesListModel(
             games =
-            games.map { game ->
-                GamesListModel.Item(
-                    id = game.id,
-                    name = game.name,
-                    description = game.description,
-                    image = game.imageUrl,
-                    price = game.price,
-                )
-            },
-            addButton = if (user.role == Role.ADMIN) {
-                Button(
-                    style = Button.Style.FLOATING,
-                    text = "Add",
-                    onClick = { onAddClicked() },
-                )
-            } else {
-                null
-            }
+                games.map { game ->
+                    GamesListModel.Item(
+                        id = game.id,
+                        name = game.name,
+                        description = game.description,
+                        image = game.imageUrl,
+                        price = game.price,
+                    )
+                },
+            addButton =
+                if (user.role == Role.ADMIN) {
+                    Button(
+                        style = Button.Style.FLOATING,
+                        text = "Add",
+                        onClick = { onAddClicked() },
+                    )
+                } else {
+                    null
+                },
         )
     }
 }
