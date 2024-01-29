@@ -9,6 +9,7 @@ import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.request.accept
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
@@ -18,8 +19,8 @@ import repository.local.TokenStorage
 internal class HttpClientFactory(
     private val tokenStorage: TokenStorage,
 ) {
-    val client by lazy {
-        HttpClient {
+    fun create(): HttpClient {
+        return HttpClient {
             install(ContentNegotiation) {
                 json(
                     Json {
@@ -33,6 +34,7 @@ internal class HttpClientFactory(
             install(DefaultRequest) {
                 url("http://localhost:3000")
                 contentType(ContentType.Application.Json)
+                accept(ContentType.Application.Json)
             }
             install(Logging) {
                 logger = Logger.DEFAULT

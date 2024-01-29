@@ -9,10 +9,10 @@ import repository.remote.login.HttpLoginRepository
 import repository.remote.login.LoginRepository
 import repository.remote.users.HttpUsersRepository
 
-internal class RealRemoteRepositoryFactory(
+internal class RealRemoteRepository(
     private val client: HttpClient,
     private val tokenStorage: TokenStorage,
-) : RemoteRepositoryFactory {
+) : RemoteRepository {
     override fun loginRepository(): LoginRepository = HttpLoginRepository(client, tokenStorage)
 
     override fun gamesRepository(): GamesRepository = HttpGamesRepository(client)

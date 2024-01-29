@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
@@ -7,6 +9,20 @@ plugins {
 }
 
 kotlin {
+    targets
+        .filterIsInstance<KotlinNativeTarget>()
+        .filter { it.konanTarget.family == Family.IOS }
+        .forEach {
+            it.binaries {
+                framework {
+                    baseName = "Gameshop"
+                    export(libs.decompose.core)
+                    export(libs.essenty.lifecycle)
+                    export(libs.essenty.stateKeeper)
+                }
+            }
+        }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
@@ -40,6 +56,11 @@ kotlin {
             implementation(libs.ktor.client.serialization.kotlinx.json)
 
             implementation(libs.serialization)
+
+            implementation(libs.decompose.core)
+            implementation(libs.essenty.lifecycle)
+            api(libs.essenty.stateKeeper)
+            api(libs.essenty.backHandler)
         }
 
         jvmTest.dependencies {

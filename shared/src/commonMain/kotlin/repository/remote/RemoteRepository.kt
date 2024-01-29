@@ -4,7 +4,7 @@ import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import dev.michalkonkel.gameshop.repository.users.UsersRepository
 import repository.remote.login.LoginRepository
 
-interface RemoteRepositoryFactory {
+interface RemoteRepository {
     fun loginRepository(): LoginRepository
 
     fun gamesRepository(): GamesRepository
