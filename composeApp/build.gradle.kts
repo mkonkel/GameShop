@@ -1,5 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,6 +8,17 @@ plugins {
 }
 
 kotlin {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "gameshopwasmapp"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "gameshopwasmapp.js"
+            }
+        }
+        binaries.executable()
+    }
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -25,33 +36,6 @@ kotlin {
             baseName = "ComposeApp"
             isStatic = true
         }
-    }
-
-    @OptIn(org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl::class)
-    wasmJs {
-        moduleName = "gameshopwasmapp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "gameshopwasmapp.js"
-                devServer =
-                    (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                        open =
-                            mapOf(
-                                "app" to
-                                        mapOf(
-                                            "name" to "google chrome dev",
-                                        ),
-                            )
-
-                        static =
-                            (static ?: mutableListOf()).apply {
-                                // Serve sources to debug inside browser
-                                add(project.rootDir.path)
-                            }
-                    }
-            }
-        }
-        binaries.executable()
     }
 
     sourceSets {

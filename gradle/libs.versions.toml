@@ -1,4 +1,5 @@
 [versions]
+agp = "8.1.4"
 koin = "3.5.3"
 ktor = "2.3.7"
 ktor-wasm = "3.0.0-wasm2"
@@ -7,8 +8,8 @@ h2 = "2.2.224"
 logback = "1.4.11"
 compose = "1.5.4"
 compose-plugin = "1.6.0-alpha01"
-compose-compiler = "1.5.4"
-agp = "8.1.4"
+compose-compiler = "1.5.8"
+
 android-minSdk = "24"
 android-compileSdk = "34"
 android-targetSdk = "34"
@@ -84,11 +85,11 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 [plugins]
-kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
-jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
