@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.jetbrainsCompose)
 }
 
 kotlin {
@@ -47,6 +48,7 @@ kotlin {
             implementation(projects.domain)
             implementation(projects.repository)
 
+            implementation(compose.runtime)
             implementation(libs.coroutines.core)
 
             implementation(libs.ktor.client.core)

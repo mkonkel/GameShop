@@ -1,24 +1,17 @@
 package features.games.list
 
 import features.utils.Model
+import widget.button.Button
 
 data class GamesListModel(
-    val games: List<String> =
-        listOf(
-            "Doom",
-            "Doom 2",
-            "Quake",
-            "Quake 2",
-            "Quake 3",
-            "Duke Nukem 3D",
-            "Duke Nukem Forever",
-            "Duke Nukem 3D: 20th Anniversary World Tour",
-            "Duke Nukem 3D: Megaton Edition",
-            "Duke Nukem 3D: Atomic Edition",
-            "Heretic",
-            "Hexen",
-            "Hexen 2",
-            "Blood",
-            "Blood 2",
-        ),
-) : Model
+    val games: List<Item>,
+    val addButton: Button? = null,
+) : Model {
+    data class Item(
+        val id: String,
+        val name: String,
+        val description: String,
+        val image: String,
+        val price: String,
+    )
+}

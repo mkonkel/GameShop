@@ -39,7 +39,12 @@ fun Route.loginRouting() {
                             .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 60000))
                             .sign(Algorithm.HMAC256(SECRET))
 
-                    call.respond(LoginResponse(token))
+                    call.respond(
+                        LoginResponse(
+                            token = token,
+                            user = it,
+                        ),
+                    )
                 } ?: call.respondText(
                 status = HttpStatusCode.BadRequest,
                 text = "Invalid login or password",

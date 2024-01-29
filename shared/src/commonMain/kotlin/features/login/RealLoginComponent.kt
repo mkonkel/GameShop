@@ -1,51 +1,101 @@
 package features.login
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.update
+import di.DI
 import features.BaseComponent
-import features.NavigationRouter
-import features.root.login.RegisterModel
 import features.utils.ModelState
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import repository.remote.login.LoginRepository
-import widget.input.AuthInput
+import widget.button.Button
+import widget.input.InputText
+import widget.input.InputValidator
+import widget.input.validators.FormInputValidator
 import kotlin.coroutines.CoroutineContext
 
 internal class RealLoginComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-    private val navigationRouter: NavigationRouter,
     private val loginRepository: LoginRepository,
+    private val onLogin: () -> Unit,
+    private val onRegister: () -> Unit,
 ) : BaseComponent(componentContext, coroutineContext), LoginComponent {
-    private val _modelState: MutableStateFlow<ModelState<RegisterModel>> =
-        MutableStateFlow(ModelState.Loading())
+    private val modelState: MutableValue<ModelState<LoginModel>> =
+        MutableValue(ModelState.Loading())
 
-    private val model: RegisterModel =
-        RegisterModel(
-            login = AuthInput(AuthInput.Type.LOGIN),
-            pass = AuthInput(AuthInput.Type.PASSWORD),
+    override val modelValue: Value<ModelState<LoginModel>> = modelState
+    private val loginValidation =
+        FormInputValidator(
+            inputText =
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Login",
+                ),
+            validators =
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
+        )
+    private val passwordValidation =
+        FormInputValidator(
+            inputText =
+                InputText(
+                    type = InputText.Type.NORMAL,
+                    label = "Passeord",
+                ),
+            validators =
+                listOf(
+                    InputValidator.Required("Field is required"),
+                    InputValidator.MinLength(3, "Field must be at least 3 characters long"),
+                    InputValidator.MaxLength(20, "Field must be at most 20 characters long"),
+                ),
         )
 
-    override val modelState: StateFlow<ModelState<RegisterModel>>
-        get() = this._modelState.asStateFlow()
+    val model =
+        LoginModel(
+            login = loginValidation.inputText,
+            pass = passwordValidation.inputText,
+            loginButton =
+                Button(
+                    style = Button.Style.FILLED,
+                    text = "Login",
+                    onClick = { onLoginClick() },
+                ),
+            registerButton =
+                Button(
+                    style = Button.Style.OUTLINED,
+                    text = "Register",
+                    onClick = { onRegisterClick() },
+                ),
+        )
 
     init {
-        _modelState.value = ModelState.Success(model)
+        modelState.update { ModelState.Success(model) }
     }
 
     override fun onLoginClick() {
-        println("Login clicked!")
-        scope.launch {
-            navigationRouter.push(NavigationRouter.Destination.HOME)
+        val login = loginValidation.validate()
+        val pass = passwordValidation.validate()
+
+        if (login is InputValidator.Result.Success && pass is InputValidator.Result.Success) {
+            scope.launch {
+                try {
+                    val loginResponse = loginRepository.login(login.value, pass.value)
+                    DI.currentUser = requireNotNull(loginResponse?.user)
+
+                    onLogin()
+                } catch (e: Exception) {
+                    modelState.update { ModelState.Error(e.message ?: "Unknown error") }
+                }
+            }
         }
     }
 
-    private suspend fun login(
-        username: String,
-        password: String,
-    ) {
-        loginRepository.login(username, password)
+    override fun onRegisterClick() {
+        onRegister()
     }
 }

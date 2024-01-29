@@ -31,6 +31,10 @@ decompose = "3.0.0-alpha04"
 essenty = "2.0.0-alpha02"
 parcelizeDarwin = "0.2.3"
 
+coil = "3.0.0-SNAPSHOT"
+animationAndroid = "1.5.4"
+animationCoreAndroid = "1.5.4"
+
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -93,6 +97,12 @@ essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", versi
 essenty-stateKeeper = { group = "com.arkivanov.essenty", name = "state-keeper", version.ref = "essenty" }
 essenty-instanceKeeper = { group = "com.arkivanov.essenty", name = "instance-keeper", version.ref = "essenty" }
 essenty-backHandler = { group = "com.arkivanov.essenty", name = "back-handler", version.ref = "essenty" }
+
+coil-coil = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network-ktor = { group = "io.coil-kt.coil3", name = "coil-network-ktor", version.ref = "coil" }
+androidx-animation-android = { group = "androidx.compose.animation", name = "animation-android", version.ref = "animationAndroid" }
+androidx-animation-core-android = { group = "androidx.compose.animation", name = "animation-core-android", version.ref = "animationCoreAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

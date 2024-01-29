@@ -1,8 +1,9 @@
 package features.login
 
 import features.Component
-import features.root.login.RegisterModel
 
-interface LoginComponent : Component<RegisterModel> {
+interface LoginComponent : Component<LoginModel> {
     fun onLoginClick()
+
+    fun onRegisterClick()
 }

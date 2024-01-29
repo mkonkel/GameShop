@@ -1,39 +1,50 @@
 package features.games.list
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.value.MutableValue
+import com.arkivanov.decompose.value.Value
+import com.arkivanov.decompose.value.update
+import dev.michalkonkel.gameshop.domain.user.User
+import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
-import features.NavigationRouter
 import features.utils.ModelState
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 internal class RealGamesListComponent(
     componentContext: ComponentContext,
     coroutineContext: CoroutineContext,
-    private val navigationRouter: NavigationRouter,
+    private val gamesRepository: GamesRepository,
+    private val onGameDetails: (String) -> Unit,
+    private val onAddGame: () -> Unit,
+    private val user: User,
 ) : BaseComponent(componentContext, coroutineContext), GamesListComponent {
-    private val _modelState: MutableStateFlow<ModelState<GamesListModel>> =
-        MutableStateFlow(ModelState.Loading())
+    private val modelState: MutableValue<ModelState<GamesListModel>> =
+        MutableValue(ModelState.Loading())
 
-    private val model: GamesListModel = GamesListModel()
+    override val modelValue: Value<ModelState<GamesListModel>> = modelState
 
-    override val modelState: StateFlow<ModelState<GamesListModel>>
-        get() = this._modelState.asStateFlow()
+    private lateinit var model: GamesListModel
 
     init {
         scope.launch {
             delay(3000)
-            _modelState.value = ModelState.Success(model)
+            try {
+                val games = gamesRepository.getGames()
+                model = GamesModelMapper.mapModel(games, user, ::onAddClicked)
+                modelState.update { ModelState.Success(model) }
+            } catch (e: Exception) {
+                modelState.update { ModelState.Error("Something went wrong") }
+            }
         }
     }
 
-    override fun onGameClicked(it: String) {
-        scope.launch {
-            navigationRouter.push(NavigationRouter.Destination.GAME_DETAILS)
-        }
+    override fun onGameClicked(id: String) {
+        onGameDetails(id)
+    }
+
+    override fun onAddClicked() {
+        onAddGame()
     }
 }
