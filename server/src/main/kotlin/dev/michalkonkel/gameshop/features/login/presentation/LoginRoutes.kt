@@ -36,7 +36,7 @@ fun Route.loginRouting() {
                             .withIssuer(ISSUER)
                             .withClaim("userId", it.id)
                             .withClaim("role", listOf(it.role.name))
-                            .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 60000))
+                            .withExpiresAt(Date(Clock.System.now().toEpochMilliseconds() + 6000000))
                             .sign(Algorithm.HMAC256(SECRET))
 
                     call.respond(

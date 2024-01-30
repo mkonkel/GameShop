@@ -1,14 +1,9 @@
 package dev.michalkonkel.gameshop.database
 
 import dev.michalkonkel.gameshop.database.tables.Games
-import dev.michalkonkel.gameshop.database.tables.RoleEntity
 import dev.michalkonkel.gameshop.database.tables.Roles
-import dev.michalkonkel.gameshop.database.tables.UserEntity
 import dev.michalkonkel.gameshop.database.tables.Users
 import kotlinx.coroutines.Dispatchers
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -32,36 +27,8 @@ class RealDatabaseFactory : DatabaseFactory {
                 SchemaUtils.create(Users)
                 SchemaUtils.create(Games)
 
-                val adminRole = RoleEntity.new { name = "admin" }
-                val userRole = RoleEntity.new { name = "user" }
-
-                UserEntity.new {
-                    name = "Admin"
-                    username = "admin"
-                    password = "pass"
-                    dateCreated =
-                        Clock
-                            .System
-                            .now()
-                            .toLocalDateTime(TimeZone.UTC)
-                            .date
-                            .toString()
-                    role = adminRole
-                }
-
-                UserEntity.new {
-                    name = "Admin"
-                    username = "user"
-                    password = "pass"
-                    dateCreated =
-                        Clock
-                            .System
-                            .now()
-                            .toLocalDateTime(TimeZone.UTC)
-                            .date
-                            .toString()
-                    role = userRole
-                }
+                addDefaultUsers()
+                addDefaultGames()
             }
         }
     }

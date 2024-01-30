@@ -8,7 +8,6 @@ import dev.michalkonkel.gameshop.domain.user.User
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
 import features.utils.ModelState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -30,7 +29,6 @@ internal class RealGameDetailsComponent(
 
     init {
         scope.launch {
-            delay(3000)
             try {
                 val game = gamesRepository.getGame(gameId)
                 if (game == null) {

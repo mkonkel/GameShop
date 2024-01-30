@@ -137,6 +137,10 @@ internal class RealComponentFactory(
     }
 
     override fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent {
-        return RealUsersComponent(componentContext, mainContext)
+        return RealUsersComponent(
+            componentContext,
+            mainContext,
+            remoteRepository.usersRepository(),
+        )
     }
 }

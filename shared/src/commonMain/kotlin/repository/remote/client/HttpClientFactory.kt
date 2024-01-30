@@ -46,7 +46,8 @@ internal class HttpClientFactory(
                         tokenStorage.getToken()
                     }
                     refreshTokens {
-                        TODO("Not implemented yet!")
+                        // TODO: Refresh tokens are not implemented yet
+                        tokenStorage.getToken()
                     }
                     sendWithoutRequest { request ->
                         when (request.url.pathSegments.last()) {

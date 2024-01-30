@@ -4,10 +4,10 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
+import dev.michalkonkel.gameshop.domain.games.AddGameRequest
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
 import features.utils.ModelState
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -28,23 +28,41 @@ internal class RealAddGameComponent(
 
     init {
         if (gameId == null) {
-            model = AddGameModelMapper.mapModel(null, onBackClick, onAddGameClick)
+            model = AddGameModelMapper.mapModel(null, onBackClick) { addGame() }
             modelState.update { ModelState.Success(model) }
         } else {
             scope.launch {
-                delay(3000)
                 try {
                     val game = gamesRepository.getGame(gameId)
                     if (game == null) {
                         modelState.update { ModelState.Error("Game not found") }
                     } else {
-                        model = AddGameModelMapper.mapModel(game, onBackClick, onAddGameClick)
+                        model = AddGameModelMapper.mapModel(game, onBackClick) { addGame() }
                         modelState.update { ModelState.Success(model) }
                     }
                 } catch (e: Exception) {
                     modelState.update { ModelState.Error("Something went wrong") }
                 }
             }
+        }
+    }
+
+    private fun addGame() {
+        try {
+            val request =
+                AddGameRequest(
+                    name = model.content.name.text.value,
+                    price = model.content.price.text.value,
+                    description = model.content.description.text.value,
+                    imageUrl = model.content.image.text.value,
+                )
+
+            scope.launch {
+                gamesRepository.addGame(request)
+                onAddGameClick()
+            }
+        } catch (e: Exception) {
+            println("$e")
         }
     }
 }

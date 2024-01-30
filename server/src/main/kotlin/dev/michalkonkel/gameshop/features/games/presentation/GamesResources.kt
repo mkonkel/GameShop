@@ -10,8 +10,4 @@ class GamesResources {
     @Serializable
     @Resource("{id}")
     class Id(val parent: GamesResources = GamesResources(), val id: String)
-
-    @Serializable
-    @Resource("new")
-    class New(val parent: GamesResources = GamesResources())
 }

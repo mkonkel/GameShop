@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,21 +28,20 @@ private fun Content(
     model: UsersModel,
 ) {
     Column(
+        modifier = Modifier.verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Column {
-            model.users.forEach { user ->
-                user.Widget(
-                    onEditClick = {
-                        component.onEdit()
-                    },
-                    onDeleteClick = {
-                        component.onDelete()
-                    },
-                )
-                Spacer(Modifier.height(8.dp))
-            }
+        model.users.forEach { user ->
+            user.Widget(
+                onEditClick = {
+                    component.onEdit()
+                },
+                onDeleteClick = {
+                    component.onDelete()
+                },
+            )
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

@@ -28,8 +28,6 @@ fun Route.gamesRouting() {
                     message = games,
                 )
             }
-        }
-        withRole(Role.USER) {
             get<GamesResources.Id> { request ->
                 val game = repo.getGame(request.id)
 
@@ -38,12 +36,10 @@ fun Route.gamesRouting() {
                     text = "No such game!",
                 )
             }
-        }
-        withRole(Role.ADMIN) {
-            post<GamesResources.New> {
+            post<GamesResources> {
                 val addGameRequest = call.receive<AddGameRequest>()
                 val newGame = repo.addGame(addGameRequest)
-
+                println("----------------------> $addGameRequest")
                 call.respond(newGame)
             }
         }
