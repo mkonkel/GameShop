@@ -1,5 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -14,6 +15,13 @@ kotlin {
         browser {
             commonWebpackConfig {
                 outputFileName = "gameshopwasmapp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    open = mapOf(
+                        "app" to mapOf(
+                            "name" to "google chrome dev"
+                        )
+                    )
+                }
             }
         }
         binaries.executable()

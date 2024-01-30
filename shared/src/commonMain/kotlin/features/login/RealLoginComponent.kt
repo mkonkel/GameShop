@@ -44,7 +44,7 @@ internal class RealLoginComponent(
         FormInputValidator(
             inputText =
                 InputText(
-                    type = InputText.Type.NORMAL,
+                    type = InputText.Type.SECURE,
                     label = "Passeord",
                 ),
             validators =
