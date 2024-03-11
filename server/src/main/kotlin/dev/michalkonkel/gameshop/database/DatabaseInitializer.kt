@@ -6,9 +6,8 @@ import dev.michalkonkel.gameshop.database.tables.UserEntity
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.jetbrains.exposed.sql.Transaction
 
-internal fun Transaction.addDefaultUsers() {
+internal fun addDefaultUsers() {
     val adminRole = RoleEntity.new { name = "admin" }
     val userRole = RoleEntity.new { name = "user" }
 
@@ -16,32 +15,20 @@ internal fun Transaction.addDefaultUsers() {
         name = "Admin"
         username = "admin"
         password = "pass"
-        dateCreated =
-            Clock
-                .System
-                .now()
-                .toLocalDateTime(TimeZone.UTC)
-                .date
-                .toString()
+        dateCreated = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
         role = adminRole
     }
 
     UserEntity.new {
-        name = "Admin"
+        name = "User"
         username = "user"
         password = "pass"
-        dateCreated =
-            Clock
-                .System
-                .now()
-                .toLocalDateTime(TimeZone.UTC)
-                .date
-                .toString()
+        dateCreated = Clock.System.now().toLocalDateTime(TimeZone.UTC).date.toString()
         role = userRole
     }
 }
 
-internal fun Transaction.addDefaultGames() {
+internal fun addDefaultGames() {
     GamesEntity.new {
         name = "Doom"
         description =

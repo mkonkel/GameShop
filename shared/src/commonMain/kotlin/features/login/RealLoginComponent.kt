@@ -45,7 +45,7 @@ internal class RealLoginComponent(
             inputText =
                 InputText(
                     type = InputText.Type.SECURE,
-                    label = "Passeord",
+                    label = "Password",
                 ),
             validators =
                 listOf(

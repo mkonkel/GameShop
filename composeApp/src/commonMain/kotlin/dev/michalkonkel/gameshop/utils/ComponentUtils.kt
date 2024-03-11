@@ -25,6 +25,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import features.Component
 import features.utils.Model
 import features.utils.ModelState
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -64,7 +65,7 @@ private fun LoadingAnimation() {
     )
 
     Image(
-        painter = painterResource("space-dogfighter-logo.png"),
+        painter = painterResource(DrawableResource("space-dogfighter-logo.png")),
         modifier = Modifier.size(100.dp).offset(y = rotation.dp),
         contentDescription = "space-dogfighter-logo",
     )

@@ -33,9 +33,7 @@ private fun Content(
     component: GamesListComponent,
     model: GamesListModel,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
-    ) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         model.games.forEach { game ->
             game.Widget { component.onGameClicked(game.id) }
             Spacer(modifier = Modifier.height(8.dp))

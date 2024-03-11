@@ -27,6 +27,7 @@ import dev.michalkonkel.gameshop.ui.widget.input.Widget
 import dev.michalkonkel.gameshop.utils.observeModel
 import features.login.LoginComponent
 import features.login.LoginModel
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -53,7 +54,7 @@ private fun Content(
         verticalArrangement = Arrangement.Center,
     ) {
         Image(
-            painter = painterResource("space-dogfighter-logo.png"),
+            painter = painterResource(DrawableResource("space-dogfighter-logo.png")),
             modifier = Modifier.size(180.dp),
             contentDescription = "space-dogfighter-logo",
         )
