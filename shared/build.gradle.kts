@@ -59,6 +59,8 @@ kotlin {
 
             implementation(libs.serialization)
 
+            implementation(libs.koin.core)
+
             implementation(libs.decompose.core)
             implementation(libs.essenty.lifecycle)
             api(libs.essenty.stateKeeper)

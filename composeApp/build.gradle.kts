@@ -60,7 +60,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
+
             implementation(compose.components.resources)
 
             implementation(libs.decompose.core)
@@ -70,6 +70,9 @@ kotlin {
             implementation(libs.coil.coil)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {
