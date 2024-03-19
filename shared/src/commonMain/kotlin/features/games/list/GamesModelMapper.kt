@@ -8,7 +8,7 @@ import widget.button.Button
 object GamesModelMapper {
     fun mapModel(
         games: List<Game>,
-        user: User,
+        user: User?,
         onAddClicked: () -> Unit,
     ): GamesListModel {
         return GamesListModel(
@@ -23,7 +23,7 @@ object GamesModelMapper {
                     )
                 },
             addButton =
-                if (user.role == Role.ADMIN) {
+                if (user?.role == Role.ADMIN) {
                     Button(
                         style = Button.Style.FLOATING,
                         text = "Add",

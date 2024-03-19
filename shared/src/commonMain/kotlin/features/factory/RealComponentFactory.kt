@@ -1,12 +1,6 @@
 package features.factory
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
-import deeplink.DeepLink
-import di.DI
-import features.RealRootComponent
-import features.RootComponent
 import features.games.add.AddGameComponent
 import features.games.add.RealAddGameComponent
 import features.games.detail.GameDetailsComponent
@@ -24,31 +18,13 @@ import features.root.login.RegisterComponent
 import features.users.RealUsersComponent
 import features.users.UsersListComponent
 import repository.remote.RemoteRepository
-import kotlin.coroutines.CoroutineContext
 
-@OptIn(ExperimentalDecomposeApi::class)
 internal class RealComponentFactory(
-    private val mainContext: CoroutineContext,
     private val remoteRepository: RemoteRepository,
 ) : ComponentFactory {
-    override fun createRootComponent(
-        deepLink: DeepLink,
-        webHistoryController: WebHistoryController?,
-        componentContext: ComponentContext,
-    ): RootComponent {
-        return RealRootComponent(
-            coroutineContext = mainContext,
-            componentContext = componentContext,
-            deepLink = deepLink,
-            webHistoryController = webHistoryController,
-            componentFactory = this,
-        )
-    }
-
     override fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent {
         return RealRegisterComponent(
             componentContext = componentContext,
-            coroutineContext = mainContext,
             loginRepository = remoteRepository.loginRepository(),
         )
     }
@@ -59,7 +35,6 @@ internal class RealComponentFactory(
         onRegister: () -> Unit,
     ): LoginComponent {
         return RealLoginComponent(
-            coroutineContext = mainContext,
             componentContext = componentContext,
             loginRepository = remoteRepository.loginRepository(),
             onLogin = onLogin,
@@ -74,13 +49,13 @@ internal class RealComponentFactory(
         onAddGameClick: () -> Unit,
     ): HomeComponent {
         return RealHomeComponent(
-            coroutineContext = mainContext,
             componentContext = componentContext,
             componentFactory = this,
             onClose = onCloseClick,
             onGamesClick = onGamesClick,
             onAddGameClick = onAddGameClick,
-            user = DI.currentUser,
+            // TODO: get user from DI
+            user = null,
         )
     }
 
@@ -91,11 +66,11 @@ internal class RealComponentFactory(
     ): GamesListComponent {
         return RealGamesListComponent(
             componentContext,
-            mainContext,
             remoteRepository.gamesRepository(),
             onDetails,
             onAdd,
-            DI.currentUser,
+            // TODO: get user from DI
+            null,
         )
     }
 
@@ -107,12 +82,12 @@ internal class RealComponentFactory(
     ): GameDetailsComponent {
         return RealGameDetailsComponent(
             componentContext,
-            mainContext,
             remoteRepository.gamesRepository(),
             gameId,
             onBackClick,
             onEditClick,
-            DI.currentUser,
+            // TODO: get user from DI
+            null,
         )
     }
 
@@ -124,7 +99,6 @@ internal class RealComponentFactory(
     ): AddGameComponent {
         return RealAddGameComponent(
             componentContext,
-            mainContext,
             remoteRepository.gamesRepository(),
             gameId,
             onBackClick,
@@ -133,13 +107,12 @@ internal class RealComponentFactory(
     }
 
     override fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent {
-        return RealOrdersComponent(componentContext, mainContext)
+        return RealOrdersComponent(componentContext)
     }
 
     override fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent {
         return RealUsersComponent(
             componentContext,
-            mainContext,
             remoteRepository.usersRepository(),
         )
     }

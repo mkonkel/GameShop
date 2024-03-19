@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.db.exposed.jdbc)
     implementation(libs.db.h2)
 
+    implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.ktor)
     implementation(libs.koin.ktor.slf4j)
 

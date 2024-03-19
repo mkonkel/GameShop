@@ -9,7 +9,7 @@ import widget.topbar.TopBarModel
 object GameDetailsModelMapper {
     fun mapModel(
         game: Game,
-        user: User,
+        user: User?,
         onBackClick: () -> Unit,
         onEditClick: () -> Unit,
     ) = GameDetailsModel(
@@ -19,7 +19,7 @@ object GameDetailsModelMapper {
                 title = game.name,
                 onBackClick = { onBackClick() },
                 editAction =
-                    if (user.role == Role.ADMIN) {
+                    if (user?.role == Role.ADMIN) {
                         { onEditClick() }
                     } else {
                         null

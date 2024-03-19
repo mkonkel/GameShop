@@ -13,16 +13,14 @@ import com.arkivanov.decompose.value.Value
 import deeplink.DeepLink
 import features.factory.ComponentFactory
 import kotlinx.serialization.Serializable
-import kotlin.coroutines.CoroutineContext
 
 @OptIn(ExperimentalDecomposeApi::class)
 internal class RealRootComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val deepLink: DeepLink = DeepLink.None,
     private val webHistoryController: WebHistoryController? = null,
     private val componentFactory: ComponentFactory,
-) : BaseComponent(componentContext, coroutineContext), RootComponent {
+) : BaseComponent(componentContext), RootComponent {
     private val navigation = StackNavigation<Config>()
 
     private val stack =

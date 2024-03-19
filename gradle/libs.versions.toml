@@ -1,14 +1,14 @@
 [versions]
 agp = "8.1.4"
-koin = "3.6.0-wasm-alpha2"
+koin-bom = "3.6.0-alpha3"
 ktor = "2.3.7"
 ktor-wasm = "3.0.0-wasm2"
 exposed = "0.45.0"
 h2 = "2.2.224"
 logback = "1.4.11"
-compose = "1.6.2"
-compose-plugin = "1.6.0-rc03"
-compose-compiler = "1.5.8"
+compose = "1.6.3"
+compose-plugin = "1.6.1"
+compose-compiler = "1.5.10"
 
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -16,12 +16,12 @@ android-targetSdk = "34"
 androidx-activityCompose = "1.8.2"
 androidx-core-ktx = "1.12.0"
 androidx-appcompat = "1.6.1"
-androidx-material = "1.11.0"
+androidx-material = "1.2.1"
 androidx-constraintlayout = "2.1.4"
 androidx-test-junit = "1.1.5"
 androidx-espresso-core = "3.5.1"
-coroutines = "1.8.0-RC2"
-kotlin = "1.9.21"
+coroutines = "1.8.0"
+kotlin = "1.9.23"
 junit = "4.13.2"
 date = "0.5.0"
 serialization = "1.6.2"
@@ -32,8 +32,9 @@ essenty = "2.0.0-alpha02"
 parcelizeDarwin = "0.2.3"
 
 coil = "3.0.0-SNAPSHOT"
-animationAndroid = "1.5.4"
-animationCoreAndroid = "1.5.4"
+animationAndroid = "1.6.3"
+animationCoreAndroid = "1.6.3"
+ksp = "1.9.23-1.0.19"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -80,12 +81,14 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "androidx-constraintlayout" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-koin-coroutines = { module = "io.insert-koin:koin-core-coroutines", version.ref = "koin" }
-koin-ktor-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-test = { module = "io.insert-koin:koin-test" }
+koin-ktor = { module = "io.insert-koin:koin-ktor" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-coroutines = { module = "io.insert-koin:koin-core-coroutines" }
+koin-ktor-slf4j = { module = "io.insert-koin:koin-logger-slf4j" }
 
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }

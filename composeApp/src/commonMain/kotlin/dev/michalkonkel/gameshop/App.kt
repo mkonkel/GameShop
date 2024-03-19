@@ -15,13 +15,24 @@ import coil3.compose.setSingletonImageLoaderFactory
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
 import coil3.util.DebugLogger
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
+import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import deeplink.DeepLink
 import dev.michalkonkel.gameshop.features.RootScreen
 import features.RootComponent
+import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
+import org.koin.core.parameter.parametersOf
+import sharedModule
 
+@OptIn(ExperimentalCoilApi::class, ExperimentalDecomposeApi::class)
 @Composable
 fun App(
-    component: RootComponent,
     modifier: Modifier,
+    deeplink: DeepLink = DeepLink.None,
+    webHistoryController: WebHistoryController? = null,
 ) {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
@@ -37,10 +48,19 @@ fun App(
             .build()
     }
 
-    CompositionLocalProvider(
-        LocalAppPadding provides calculatePaddingValues(),
-    ) {
-        RootScreen(component = component, modifier = modifier)
+    KoinApplication(application = { modules(sharedModule) }) {
+        val rootComponent =
+            koinInject<RootComponent> {
+                parametersOf(
+                    deeplink,
+                    webHistoryController,
+                    DefaultComponentContext(lifecycle = LifecycleRegistry()),
+                )
+            }
+
+        CompositionLocalProvider(LocalAppPadding provides calculatePaddingValues()) {
+            RootScreen(component = rootComponent, modifier = modifier)
+        }
     }
 }
 
