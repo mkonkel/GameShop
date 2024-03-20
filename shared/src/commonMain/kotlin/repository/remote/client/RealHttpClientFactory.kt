@@ -14,7 +14,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
-import repository.local.TokenStorage
+import repository.local.token.TokenStorage
 
 internal class RealHttpClientFactory(
     private val tokenStorage: TokenStorage,

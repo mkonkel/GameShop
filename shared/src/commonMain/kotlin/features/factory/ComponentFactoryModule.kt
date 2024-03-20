@@ -4,9 +4,10 @@ import org.koin.dsl.module
 
 internal val componentFactoryModule =
     module {
-        single<ComponentFactory> { params ->
+        single<ComponentFactory> {
             RealComponentFactory(
                 remoteRepository = get(),
+                userHolder = get(),
             )
         }
     }

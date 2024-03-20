@@ -2,7 +2,7 @@ package repository.remote
 
 import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import dev.michalkonkel.gameshop.repository.users.UsersRepository
-import repository.local.TokenStorage
+import repository.local.token.TokenStorage
 import repository.remote.client.HttpClientFactory
 import repository.remote.games.HttpGamesRepository
 import repository.remote.login.HttpLoginRepository

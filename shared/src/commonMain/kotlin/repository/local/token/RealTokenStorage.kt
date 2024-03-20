@@ -1,4 +1,4 @@
-package repository.local
+package repository.local.token
 
 import io.ktor.client.plugins.auth.providers.BearerTokens
 

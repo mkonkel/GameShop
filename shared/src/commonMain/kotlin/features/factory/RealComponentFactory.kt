@@ -17,10 +17,12 @@ import features.register.RealRegisterComponent
 import features.root.login.RegisterComponent
 import features.users.RealUsersComponent
 import features.users.UsersListComponent
+import repository.local.user.UserHolder
 import repository.remote.RemoteRepository
 
 internal class RealComponentFactory(
     private val remoteRepository: RemoteRepository,
+    private val userHolder: UserHolder,
 ) : ComponentFactory {
     override fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent {
         return RealRegisterComponent(
@@ -39,6 +41,7 @@ internal class RealComponentFactory(
             loginRepository = remoteRepository.loginRepository(),
             onLogin = onLogin,
             onRegister = onRegister,
+            userHolder = userHolder,
         )
     }
 
@@ -54,8 +57,7 @@ internal class RealComponentFactory(
             onClose = onCloseClick,
             onGamesClick = onGamesClick,
             onAddGameClick = onAddGameClick,
-            // TODO: get user from DI
-            user = null,
+            user = userHolder.user,
         )
     }
 
@@ -65,12 +67,11 @@ internal class RealComponentFactory(
         onAdd: () -> Unit,
     ): GamesListComponent {
         return RealGamesListComponent(
-            componentContext,
-            remoteRepository.gamesRepository(),
-            onDetails,
-            onAdd,
-            // TODO: get user from DI
-            null,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            onGameDetails = onDetails,
+            onAddGame = onAdd,
+            user = userHolder.user,
         )
     }
 
@@ -81,13 +82,12 @@ internal class RealComponentFactory(
         onEditClick: () -> Unit,
     ): GameDetailsComponent {
         return RealGameDetailsComponent(
-            componentContext,
-            remoteRepository.gamesRepository(),
-            gameId,
-            onBackClick,
-            onEditClick,
-            // TODO: get user from DI
-            null,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            gameId = gameId,
+            onBackClick = onBackClick,
+            onEditClick = onEditClick,
+            user = userHolder.user,
         )
     }
 
@@ -98,11 +98,11 @@ internal class RealComponentFactory(
         onAddGameClick: () -> Unit,
     ): AddGameComponent {
         return RealAddGameComponent(
-            componentContext,
-            remoteRepository.gamesRepository(),
-            gameId,
-            onBackClick,
-            onAddGameClick,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            gameId = gameId,
+            onBackClick = onBackClick,
+            onAddGameClick = onAddGameClick,
         )
     }
 

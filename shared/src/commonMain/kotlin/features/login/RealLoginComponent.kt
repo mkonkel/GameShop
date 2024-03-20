@@ -7,6 +7,7 @@ import com.arkivanov.decompose.value.update
 import features.BaseComponent
 import features.utils.ModelState
 import kotlinx.coroutines.launch
+import repository.local.user.UserHolder
 import repository.remote.login.LoginRepository
 import widget.button.Button
 import widget.input.InputText
@@ -18,6 +19,7 @@ internal class RealLoginComponent(
     private val loginRepository: LoginRepository,
     private val onLogin: () -> Unit,
     private val onRegister: () -> Unit,
+    private val userHolder: UserHolder,
 ) : BaseComponent(componentContext), LoginComponent {
     private val modelState: MutableValue<ModelState<LoginModel>> =
         MutableValue(ModelState.Loading())
@@ -82,8 +84,7 @@ internal class RealLoginComponent(
             scope.launch {
                 try {
                     val loginResponse = loginRepository.login(login.value, pass.value)
-                    // TODO: set user to DI
-//                    DI.currentUser = requireNotNull(loginResponse?.user)
+                    userHolder.user = loginResponse?.user
 
                     onLogin()
                 } catch (e: Exception) {
