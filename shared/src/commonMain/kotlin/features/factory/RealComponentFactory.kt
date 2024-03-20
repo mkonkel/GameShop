@@ -1,12 +1,6 @@
 package features.factory
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
-import deeplink.DeepLink
-import di.DI
-import features.RealRootComponent
-import features.RootComponent
 import features.games.add.AddGameComponent
 import features.games.add.RealAddGameComponent
 import features.games.detail.GameDetailsComponent
@@ -23,32 +17,16 @@ import features.register.RealRegisterComponent
 import features.root.login.RegisterComponent
 import features.users.RealUsersComponent
 import features.users.UsersListComponent
+import repository.local.user.UserHolder
 import repository.remote.RemoteRepository
-import kotlin.coroutines.CoroutineContext
 
-@OptIn(ExperimentalDecomposeApi::class)
 internal class RealComponentFactory(
-    private val mainContext: CoroutineContext,
     private val remoteRepository: RemoteRepository,
+    private val userHolder: UserHolder,
 ) : ComponentFactory {
-    override fun createRootComponent(
-        deepLink: DeepLink,
-        webHistoryController: WebHistoryController?,
-        componentContext: ComponentContext,
-    ): RootComponent {
-        return RealRootComponent(
-            coroutineContext = mainContext,
-            componentContext = componentContext,
-            deepLink = deepLink,
-            webHistoryController = webHistoryController,
-            componentFactory = this,
-        )
-    }
-
     override fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent {
         return RealRegisterComponent(
             componentContext = componentContext,
-            coroutineContext = mainContext,
             loginRepository = remoteRepository.loginRepository(),
         )
     }
@@ -59,11 +37,11 @@ internal class RealComponentFactory(
         onRegister: () -> Unit,
     ): LoginComponent {
         return RealLoginComponent(
-            coroutineContext = mainContext,
             componentContext = componentContext,
             loginRepository = remoteRepository.loginRepository(),
             onLogin = onLogin,
             onRegister = onRegister,
+            userHolder = userHolder,
         )
     }
 
@@ -74,13 +52,12 @@ internal class RealComponentFactory(
         onAddGameClick: () -> Unit,
     ): HomeComponent {
         return RealHomeComponent(
-            coroutineContext = mainContext,
             componentContext = componentContext,
             componentFactory = this,
             onClose = onCloseClick,
             onGamesClick = onGamesClick,
             onAddGameClick = onAddGameClick,
-            user = DI.currentUser,
+            user = userHolder.user,
         )
     }
 
@@ -90,12 +67,11 @@ internal class RealComponentFactory(
         onAdd: () -> Unit,
     ): GamesListComponent {
         return RealGamesListComponent(
-            componentContext,
-            mainContext,
-            remoteRepository.gamesRepository(),
-            onDetails,
-            onAdd,
-            DI.currentUser,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            onGameDetails = onDetails,
+            onAddGame = onAdd,
+            user = userHolder.user,
         )
     }
 
@@ -106,13 +82,12 @@ internal class RealComponentFactory(
         onEditClick: () -> Unit,
     ): GameDetailsComponent {
         return RealGameDetailsComponent(
-            componentContext,
-            mainContext,
-            remoteRepository.gamesRepository(),
-            gameId,
-            onBackClick,
-            onEditClick,
-            DI.currentUser,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            gameId = gameId,
+            onBackClick = onBackClick,
+            onEditClick = onEditClick,
+            user = userHolder.user,
         )
     }
 
@@ -123,23 +98,21 @@ internal class RealComponentFactory(
         onAddGameClick: () -> Unit,
     ): AddGameComponent {
         return RealAddGameComponent(
-            componentContext,
-            mainContext,
-            remoteRepository.gamesRepository(),
-            gameId,
-            onBackClick,
-            onAddGameClick,
+            componentContext = componentContext,
+            gamesRepository = remoteRepository.gamesRepository(),
+            gameId = gameId,
+            onBackClick = onBackClick,
+            onAddGameClick = onAddGameClick,
         )
     }
 
     override fun createOrdersComponent(componentContext: ComponentContext): OrdersComponent {
-        return RealOrdersComponent(componentContext, mainContext)
+        return RealOrdersComponent(componentContext)
     }
 
     override fun createUsersListComponent(componentContext: ComponentContext): UsersListComponent {
         return RealUsersComponent(
             componentContext,
-            mainContext,
             remoteRepository.usersRepository(),
         )
     }

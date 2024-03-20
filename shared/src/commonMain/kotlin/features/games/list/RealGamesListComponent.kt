@@ -10,16 +10,14 @@ import features.BaseComponent
 import features.utils.ModelState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 internal class RealGamesListComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val gamesRepository: GamesRepository,
     private val onGameDetails: (String) -> Unit,
     private val onAddGame: () -> Unit,
-    private val user: User,
-) : BaseComponent(componentContext, coroutineContext), GamesListComponent {
+    private val user: User?,
+) : BaseComponent(componentContext), GamesListComponent {
     private val modelState: MutableValue<ModelState<GamesListModel>> =
         MutableValue(ModelState.Loading())
 

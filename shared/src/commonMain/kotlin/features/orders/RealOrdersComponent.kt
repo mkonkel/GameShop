@@ -10,12 +10,10 @@ import features.games.detail.OrdersModel
 import features.utils.ModelState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 internal class RealOrdersComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
-) : BaseComponent(componentContext, coroutineContext), OrdersComponent {
+) : BaseComponent(componentContext), OrdersComponent {
     private val modelState: MutableValue<ModelState<OrdersModel>> =
         MutableValue(ModelState.Loading())
 

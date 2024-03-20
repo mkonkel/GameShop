@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.konan.target.Family
 import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.konan.target.Family
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -58,6 +58,10 @@ kotlin {
             implementation(libs.ktor.client.serialization.kotlinx.json)
 
             implementation(libs.serialization)
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
             implementation(libs.decompose.core)
             implementation(libs.essenty.lifecycle)

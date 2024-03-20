@@ -1,10 +1,6 @@
 package features.factory
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.webhistory.WebHistoryController
-import deeplink.DeepLink
-import features.RootComponent
 import features.games.add.AddGameComponent
 import features.games.detail.GameDetailsComponent
 import features.games.detail.OrdersComponent
@@ -14,14 +10,7 @@ import features.login.LoginComponent
 import features.root.login.RegisterComponent
 import features.users.UsersListComponent
 
-@OptIn(ExperimentalDecomposeApi::class)
-interface ComponentFactory {
-    fun createRootComponent(
-        deepLink: DeepLink,
-        webHistoryController: WebHistoryController?,
-        componentContext: ComponentContext,
-    ): RootComponent
-
+internal interface ComponentFactory {
     fun createRegisterComponent(componentContext: ComponentContext): RegisterComponent
 
     fun createLoginComponent(

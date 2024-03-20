@@ -17,17 +17,15 @@ import kotlinx.serialization.Serializable
 import widget.bottombar.BottomBarModel
 import widget.button.Button
 import widget.topbar.TopBarModel
-import kotlin.coroutines.CoroutineContext
 
 internal class RealHomeComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val componentFactory: ComponentFactory,
     private val onClose: () -> Unit,
     private val onGamesClick: (String) -> Unit,
     private val onAddGameClick: () -> Unit,
-    private val user: User,
-) : BaseComponent(componentContext, coroutineContext), HomeComponent {
+    private val user: User?,
+) : BaseComponent(componentContext), HomeComponent {
     private val navigation = StackNavigation<Config>()
     private val modelState: MutableValue<ModelState<HomeModel>> =
         MutableValue(ModelState.Loading())
@@ -61,7 +59,7 @@ internal class RealHomeComponent(
                                 ),
                             )
 
-                            if (user.role == Role.ADMIN) {
+                            if (user?.role == Role.ADMIN) {
                                 add(
                                     Button(
                                         text = "Users",

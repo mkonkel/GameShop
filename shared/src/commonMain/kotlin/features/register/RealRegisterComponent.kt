@@ -10,13 +10,11 @@ import features.root.login.RegisterModel
 import features.utils.ModelState
 import repository.remote.login.LoginRepository
 import widget.input.InputText
-import kotlin.coroutines.CoroutineContext
 
 internal class RealRegisterComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val loginRepository: LoginRepository,
-) : BaseComponent(componentContext, coroutineContext), RegisterComponent {
+) : BaseComponent(componentContext), RegisterComponent {
     private val modelState: MutableValue<ModelState<RegisterModel>> =
         MutableValue(ModelState.Loading())
 

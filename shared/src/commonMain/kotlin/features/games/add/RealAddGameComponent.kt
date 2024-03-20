@@ -9,16 +9,14 @@ import dev.michalkonkel.gameshop.repository.games.GamesRepository
 import features.BaseComponent
 import features.utils.ModelState
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 internal class RealAddGameComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val gamesRepository: GamesRepository,
     private val gameId: String?,
     private val onBackClick: () -> Unit,
     private val onAddGameClick: () -> Unit,
-) : BaseComponent(componentContext, coroutineContext), AddGameComponent {
+) : BaseComponent(componentContext), AddGameComponent {
     private val modelState: MutableValue<ModelState<AddGameModel>> =
         MutableValue(ModelState.Loading())
 

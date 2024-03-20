@@ -51,6 +51,9 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.android)
         }
 
         commonMain.dependencies {
@@ -60,7 +63,7 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
+
             implementation(compose.components.resources)
 
             implementation(libs.decompose.core)
@@ -70,6 +73,10 @@ kotlin {
             implementation(libs.coil.coil)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
 
         iosMain.dependencies {

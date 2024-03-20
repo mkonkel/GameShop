@@ -6,25 +6,19 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.retainedComponent
-import di.DI
-import kotlinx.coroutines.MainScope
+import deeplink.DeepLink
 
 @OptIn(ExperimentalDecomposeApi::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val root =
-            retainedComponent {
-                DI.rootComponent(
-                    componentContext = it,
-                    mainContext = MainScope().coroutineContext,
-                )
-            }
-
         setContent {
-            App(component = root, modifier = Modifier.fillMaxSize())
+            App(
+                modifier = Modifier.fillMaxSize(),
+                deeplink = DeepLink.None,
+                webHistoryController = null,
+            )
         }
     }
 }

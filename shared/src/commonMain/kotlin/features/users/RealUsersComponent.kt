@@ -7,13 +7,11 @@ import dev.michalkonkel.gameshop.repository.users.UsersRepository
 import features.BaseComponent
 import features.utils.ModelState
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 internal class RealUsersComponent(
     componentContext: ComponentContext,
-    coroutineContext: CoroutineContext,
     private val usersRepository: UsersRepository,
-) : BaseComponent(componentContext, coroutineContext), UsersListComponent {
+) : BaseComponent(componentContext), UsersListComponent {
     private val modelState: MutableValue<ModelState<UsersModel>> =
         MutableValue(ModelState.Loading())
 
